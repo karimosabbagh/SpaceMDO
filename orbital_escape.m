@@ -52,8 +52,7 @@ function [delta_v_escape, V_SC_departure] = orbital_escape_delta_v(m_SC, r_p1, V
     g2 = V_SC_departure - V_Earth;                    % V_D^(v) - V_Earth > 0
 
     % g3: Launch window constraint
-    g3_lower = t_D - t_D_min;                         % t_D >= t_D_min
-    g3_upper = t_D_max - t_D;                         % t_D <= t_D_max
+    % implicit in earth_result_table as the date ranges are already given
 
     % g4: Time of flight constraint
     g4_tof_max = (t_A - t_D) - TOF_max;               % TOF_max >= t_A - t_D

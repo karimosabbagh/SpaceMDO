@@ -16,7 +16,7 @@ c_ineq = [];
 switch subproblem_index
     case 1
         % Subproblem 1 - ORBITAL ESCAPE
-        [m_SC, r_p1, V_SC_arrival, departure_date, arrival_date] = get_variable(x_DV,PB,'m_SC_e', 'r_p1', 'V_SC_arrival_e', 'departure_date_e', 'arrival_date_e');
+        [m_SC, r_p1, V_SC_arrival, departure_date, arrival_date] = get_variable(x_DV,PB,'m_SC_e', 'r_p1', 'V_infinity_A_e', 'departure_date_e', 'arrival_date_e');
         [delta_v_escape, V_SC_departure, S1_constraints] = orbital_escape_delta_v(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date);
         obj = delta_v_escape;
         c_ineq(1) = S1_constraints(1);
@@ -26,7 +26,16 @@ switch subproblem_index
         c_ineq(5) = S1_constraints(5);
         c_ineq(6) = S1_constraints(6);
         c_ineq(7) = S1_constraints(7);
-        y = [delta_v_escape, V_SC_departure];
+        %y = ;
+
+
+        % AERODYNAMICS
+        [W, L, H, tw, v_max] = get_variable(x_DV, PB,'W_a', 'L_a', 'H_a', 'tw_a', 'v_ma');
+        [Cd, g] = subsystem_aerodynanmics(W, L, H, tw, v_max, nu, rho_a, N, A_p);
+        obj = Cd;
+        c_ineq(1) = g;
+        y = Cd;
+
     case 2
         % Subproblem 2 - ORBITAL CAPTURE
         [u,w,a] = get_variable(x_DV,PB,'u_2','w','a_2');            

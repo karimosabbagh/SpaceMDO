@@ -37,8 +37,8 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
         sqrt(2 + (V_infinity_D * sqrt(R_earth + r_p1) / sqrt(G * (M + m_SC)))^2) - 1;
     
     % Evaluate constraints
-    S1_constraints = evaluate_constraints_S1(r_p1, r_p1_min, r_p1_max, V_SC_departure, ...
-        V_Earth_departure, departure_date, arrival_date);
+    S1_constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
+        departure_date, arrival_date);
 
 end
 
@@ -66,29 +66,23 @@ function tof = determine_tof(departure_date, arrival_date)
 end
 
 
-function constraints = evaluate_constraints_S1(r_p1, r_p1_min, r_p1_max, V_SC_departure, ...
-    V_Earth_departure, departure_date, arrival_date)
+function constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
+    departure_date, arrival_date)
 
-    global date_range;
+    % g1: Parking orbit constraint (r_p1_min <= r_p1 <= r_p1_max)
+    c1 = r_p1;                                                     
 
-    % g1: Parking orbit constraint
-    c1 = r_p1 - r_p1_min;               % r_p1 >= r_p1_min
-    c2 = r_p1_max - r_p1;               % r_p1 <= r_p1_max
+    % g2: Hyperbolic excess velocity constraint (V_D^(v) - V_Earth > 0)
+    c2 = V_SC_departure - V_Earth_departure;               
 
-    % g2: Hyperbolic excess velocity constraint
-    c3 = V_SC_departure - V_Earth_departure;               % V_D^(v) - V_Earth > 0
-
-    % g3: Launch window constraint
-    c4 = departure_date - date_range(1);               % departure_date >= launch window start
-    c5 = date_range(end) - departure_date;             % departure_date <= launch window end
+    % g3: Launch window constraint (launch window start <= departure_date <= launch window end)
+    c3 = departure_date;
     
-    % g4: Time of flight constraintj0 = J0(year, month, day);
+    % g4: Time of flight constraint; (tof_min <= t_A - t_D <= tof_max)
     tof = determine_tof(departure_date, arrival_date);
-
-    c6 = tof - tof_max;               % tof_max >= t_A - t_D
-    c7 = tof_min - tof;               % t_A - t_D >= tof_min
+    c4 = tof;              
 
     % Combine constraints
-    constraints = [c1, c2, c3, c4, c5, c6, c7];
+    S1_constraints = [c1, c2, c3, c4];
 
 end

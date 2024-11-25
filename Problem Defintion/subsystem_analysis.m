@@ -23,9 +23,6 @@ switch subproblem_index
         c_ineq(2) = S1_constraints(2);
         c_ineq(3) = S1_constraints(3);
         c_ineq(4) = S1_constraints(4);
-        c_ineq(5) = S1_constraints(5);
-        c_ineq(6) = S1_constraints(6);
-        c_ineq(7) = S1_constraints(7);
         y = [delta_v_escape, V_SC_departure];
     case 2
         % Subproblem 2 - ORBITAL CAPTURE

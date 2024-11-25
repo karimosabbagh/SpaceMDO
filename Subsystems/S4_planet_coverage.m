@@ -16,6 +16,7 @@ function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, et
     global R_mars G M ;
 
     % Subsystem Specific Parameters
+    global Res_min k;
     Res_min = 5;
     k = 1;
 
@@ -86,9 +87,13 @@ function Lambda = ground_range_angle(eta, R_planet, r_sat)
     % Outputs:
     %   Lambda     - Ground range angle (radians)
 
-    global i;
-    i = i + 1;
-    %disp(i);
+
+    % Debugging step
+    if ~isscalar(r_sat)
+        disp('Error: r_sat is not scalar.');
+        disp(size(r_sat)); % Show dimensions
+        return; % Early exit for debugging
+    end
 
     % Ensure r_sat is scalar
     assert(isscalar(r_sat), 'r_sat must be a scalar value');
@@ -111,7 +116,7 @@ end
 
 function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde)
     % Evaluate the non-linear constraints
-    global R_mars ;
+    global R_mars Res_min k;
 
     % Orbital radius at periapsis
     r_sat = a * (1 - e^2) / (1 + e * cos(0)); % r_sat for theta = 0
@@ -121,7 +126,8 @@ function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde)
     c1 = sin(eta_max) - R_mars / r_sat;
 
     % Constraint 2: Minimum resolution constraint
-    Lambda_max = ground_range_angle(eta_max, r_sat);
+    Lambda_max = ground_range_angle(eta_max, R_mars, r_sat);
+
     rho = R_mars / sin(Lambda_max); % Slant range
     resolution = rho * k * cos(eta_center);
     c2 = Res_min - resolution;

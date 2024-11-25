@@ -62,8 +62,7 @@ function A = instantaneous_coverage(a, e, theta, eta_center, eta_FOV_tilde)
     % Orbital radius at true anomaly
     r_sat = a * (1 - e^2) ./ (1 + e * cos(theta));
 
-    disp('theta');
-    disp(length(theta));
+    dip()
     % Calculate eta_max and eta_min
     eta_max = eta_center + eta_FOV_tilde / 2;
     eta_min = eta_center - eta_FOV_tilde / 2;
@@ -88,7 +87,7 @@ function Lambda = ground_range_angle(eta, R_planet, r_sat)
 
     global i;
     i = i + 1;
-    %disp(i);
+    disp(i);
 
     % Ensure r_sat is scalar
     assert(isscalar(r_sat), 'r_sat must be a scalar value');

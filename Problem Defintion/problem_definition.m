@@ -28,7 +28,7 @@ PB.var{8}   = {'V_SC_arrival_e'       1    false    [18]    1    0    ub};
 
 % ORBITAL CAPTURE
 %----------------------------------------------------------
-PB.var{9}  = {'delta_v_capture'       2     true    []     1    0    ub};
+PB.var{9}   = {'delta_v_capture'      2     true    []     1    0    ub};
 PB.var{10}  = {'m_SC_c'               2    false    [2]    1    lb    ub};  % from Spacecraft & Propellant Mass
 PB.var{11}  = {'m_prop_c'             2    false    []     1    lb    ub};  % from Spacecraft & Propellant Mass
 PB.var{12}  = {'r_p2'                 2    false    []     1    100000    320000}; 

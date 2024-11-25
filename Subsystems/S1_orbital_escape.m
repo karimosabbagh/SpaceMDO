@@ -14,7 +14,7 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     % Outputs:
     %   obj               - objective value (delta_v to escape Earth SOI (m/s))
     %   V_SC_departure    - velocity of spacecraft at Earth SOI (m/s)
-    %   constraints       - Array of constraint values [c1, c2, c3, c4, c5, c6, c7]
+    %   constraints       - Array of constraint values [c1, c2, c3, c4]
 
     global R_earth G M M_Sun earth_orbital_data mars_orbital_data;
 
@@ -66,7 +66,7 @@ function tof = determine_tof(departure_date, arrival_date)
 end
 
 
-function constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
+function S1_constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
     departure_date, arrival_date)
 
     % g1: Parking orbit constraint (r_p1_min <= r_p1 <= r_p1_max)

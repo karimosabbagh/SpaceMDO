@@ -29,8 +29,10 @@ function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, et
     global i;
     i = 0;
 
+    % Calculate total surface area of Mars  (assuming perfect sphere)
+    A_mars = 4 * pi * R_mars ^2;
     % Calculate the objective function: total covered area over the elliptical orbit
-    obj = -integrate_coverage(a, e, eta_center, eta_FOV_tilde);
+    obj = -integrate_coverage(a, e, eta_center, eta_FOV_tilde) / A_mars;
 
     % Evaluate non-linear constraints
     constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde);

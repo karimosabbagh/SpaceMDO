@@ -1,0 +1,50 @@
+# MATLAB temporary and backup files
+*.asv
+*.m~
+*.bak
+*.autosave
+
+# MATLAB code generation
+codegen/
+slprj/
+mex/
+
+# MATLAB app data and generated resources
+*.mlappinstall
+*.mlapp
+
+# User-specific settings
+*.prj
+*.aslx
+*.slx.autosave
+*.mdl.autosave
+*.slxc
+
+# Simulink cache files
+*.slxc
+*.slxc.autosave
+*.mdl.rtw
+*.slprj/
+
+# MATLAB user preferences and history files
+*.mct
+*.mat
+*.mex*
+*.p
+
+# Log files and debugging output
+*.log
+*.stackdump
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# MATLAB Live Script outputs
+*.mlx
+*.mltbx
+
+# Hidden system files
+*.lock
+

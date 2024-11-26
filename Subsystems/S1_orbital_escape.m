@@ -1,11 +1,6 @@
-% subsystem specific constraint parameters
-r_p1_min = 160 * 1000;      % (m)
-r_p1_max = 2000 * 1000;     % (m)
-TOF_min = 128;              % (days)
-TOF_max = 500;              % (days)
-
-
-function [obj, V_SC_departure, constraints] = orbital_escape_delta_v(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
+function [delta_v_escape, V_SC_departure, S1_constraints] = ...
+    orbital_escape_delta_v(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
+    %
     % Determine the delta_v to escape Earth's gravitational sphere of influence and 
     % velocity of spacecraft at departure
     %
@@ -19,7 +14,7 @@ function [obj, V_SC_departure, constraints] = orbital_escape_delta_v(m_SC, r_p1,
     % Outputs:
     %   obj               - objective value (delta_v to escape Earth SOI (m/s))
     %   V_SC_departure    - velocity of spacecraft at Earth SOI (m/s)
-    %   constraints       - Array of constraint values [c1, c2]
+    %   constraints       - Array of constraint values [c1, c2, c3, c4]
 
     global R_earth G M M_Sun earth_orbital_data mars_orbital_data;
 
@@ -40,36 +35,54 @@ function [obj, V_SC_departure, constraints] = orbital_escape_delta_v(m_SC, r_p1,
     % calculate delta v
     delta_v_escape = sqrt(G * (M + m_SC) / (R_earth + r_p1)) * ... 
         sqrt(2 + (V_infinity_D * sqrt(R_earth + r_p1) / sqrt(G * (M + m_SC)))^2) - 1;
-
-    obj = delta_v_escape;
     
     % Evaluate constraints
-    constraints = evaluate_constraints(r_p1, r_p1_min, r_p1_max, V_SC_departure, V_Earth_departure, arrival_date, departure_date);
+    S1_constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
+        departure_date, arrival_date);
 
 end
 
 
-function constraints = evaluate_constraints(r_p1, r_p1_min, r_p1_max, V_SC_departure, V_Earth_departure, arrival_date, departure_date)
+function tof = determine_tof(departure_date, arrival_date)
+% Compute the Julian day number at 0 UT for departure and arrival dates, and the time of flight
+    
+    % Extract year, month, and day
+    departure_year = year(departure_date);
+    departure_month = month(departure_date);
+    departure_day = day(departure_dt);
 
-    % g1: Parking orbit constraint
-    c1 = r_p1 - r_p1_min;                                         % r_p1 >= r_p1_min
-    c2 = r_p1_max - r_p1;                                         % r_p1 <= r_p1_max
+    arrival_year = year(arrival_date);
+    arrival_month = month(arrival_date);
+    arrival_day = day(arrival_date);
+    
+    % Compute J0 values
+    jd1 = 367*departure_year - fix(7*(departure_year + fix((departure_month + 9)/12))/4) + ...
+        fix(275*departure_month/9) + departure_day + 1721013.5;
+    jd2 = 367*arrival_year - fix(7*(arrival_year + fix((arrival_month + 9)/12))/4) + ...
+        fix(275*arrival_month/9) + arrival_day + 1721013.5;
 
-    % g2: Hyperbolic excess velocity constraint
-    c3 = V_SC_departure - V_Earth_departure;                      % V_D^(v) - V_Earth > 0
+    % Determine TOF
+    tof = jd2 - jd1;
+end
 
-    % g3: Launch window constraint
-    % implicit in earth_orbital_data as the possible date ranges are already provided
 
-    % g4: Time of flight constraint
-    arrival_date_datetime = datetime(arrival_date, 'InputFormat', 'yyyy-MM-dd');
-    departure_date_datetime = datetime(departure_date, 'InputFormat', 'yyyy-MM-dd');
-    date_diff = arrival_date_datetime - departure_date_datetime;
+function S1_constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
+    departure_date, arrival_date)
 
-    c4 = date_diff - TOF_max;               % TOF_max >= t_A - t_D
-    c5 = TOF_min - date_diff;               % t_A - t_D >= TOF_min
+    % g1: Parking orbit constraint (r_p1_min <= r_p1 <= r_p1_max)
+    c1 = r_p1;                                                     
+
+    % g2: Hyperbolic excess velocity constraint (V_D^(v) - V_Earth > 0)
+    c2 = V_SC_departure - V_Earth_departure;               
+
+    % g3: Launch window constraint (launch window start <= departure_date <= launch window end)
+    c3 = departure_date;
+    
+    % g4: Time of flight constraint; (tof_min <= t_A - t_D <= tof_max)
+    tof = determine_tof(departure_date, arrival_date);
+    c4 = tof;              
 
     % Combine constraints
-    constraints = [c1, c2, c3, c4, c5];
+    S1_constraints = [c1, c2, c3, c4];
 
 end

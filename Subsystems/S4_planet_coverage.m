@@ -13,21 +13,16 @@ function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, et
     %   constraints  - Array of constraint values [c1, c2]
     
     % Declare global variables
-    global R_mars G M_Mars ;
+    global R_mars G M_Mars;
 
     % Subsystem Specific Parameters
-    global Res_min k;
-    Res_min = 5;
-    k = 1;
+    global Res_min;
 
     % Calculate semi-major axis (a)
     a = r_p / (1 - e);
 
     % Calculate orbital period
     T_orbit = 2 * pi * sqrt(a^3 / (G * M_Mars));
-
-    global i;
-    i = 0;
 
     % Calculate total surface area of Mars  (assuming perfect sphere)
     A_mars = 4 * pi * R_mars ^2;
@@ -119,9 +114,9 @@ function Lambda = ground_range_angle(eta, R_planet, r_sat)
 end
 
 
-function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde)
+function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFOV)
     % Evaluate the non-linear constraints
-    global R_mars Res_min k;
+    global R_mars Res_min;
 
     % Orbital radius at periapsis
     r_sat = a * (1 - e^2) / (1 + e * cos(0)); % r_sat for theta = 0
@@ -140,12 +135,12 @@ function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde)
     % Calculate gamma
     sin_gamma = (r_sat / R_mars) * sin(eta_max);
     
-    gamma = asin(max(min(sin_gamma, 1), -1)); % Clamp value to [-1, 1]
+    gamma = pi - asin(max(min(sin_gamma, 1), -1)); % Clamp value to [-1, 1] get oblique angle
     
     % Calculate slant range rho
     rho = R_mars * cos(gamma) + r_sat * cos(eta_max);
     
-    
+    disp(rho)
     c2 = rho * 1e-3 * IFOV - Res_min;
 
     % Combine constraints

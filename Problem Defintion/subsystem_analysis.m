@@ -33,11 +33,12 @@ switch subproblem_index
         c_ineq = w+b-10;
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS
-        [u,w,a] = get_variable(x_DV,PB,'u_3','w','a_3');            
-        b = 1/(u+LAMBDA)+1/(w+LAMBDA)+1/(a+LAMBDA);
-        obj = 0;
-        y = b;
-        c_ineq = w+b-10;
+        [delta_v_escape,delta_v_arrival,tof_s] = get_variable(x_DV,PB,'delta_v_escape_e','delta_v_arrival_e','tof_s');
+        [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structure_mass(delta_v_escape,delta_v_arrival,tof_s);
+        obj = cost;
+        c_ineq(1) = S3_constraints(1);
+        c_ineq(2) = S3_constraints(2);
+        y = [m_prop,m_structure,m_SC,Isp];
      case 4
         % Subproblem 4 - PLANET COVERAGE
         [r_p, e, T_orbit, eta_center, eta_FOV_tilde, IFOV] = get_variable(x_DV, PB, 'r_p3', 'e_4', 'T_orbit_4', 'eta_center', 'eta_FOV', 'IFOV');

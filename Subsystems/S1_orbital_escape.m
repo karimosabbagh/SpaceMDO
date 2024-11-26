@@ -16,7 +16,7 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     %   V_SC_departure    - velocity of spacecraft at Earth SOI (m/s)
     %   constraints       - Array of constraint values [c1, c2, c3, c4]
 
-    global R_earth G M M_Sun earth_orbital_data mars_orbital_data;
+    global R_earth G M_Earth M_Sun earth_orbital_data mars_orbital_data;
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
     departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);
@@ -33,8 +33,8 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     V_infinity_D = V_SC_departure - V_Earth_departure;
     
     % calculate delta v
-    delta_v_escape = sqrt(G * (M + m_SC) / (R_earth + r_p1)) * ... 
-        sqrt(2 + (V_infinity_D * sqrt(R_earth + r_p1) / sqrt(G * (M + m_SC)))^2) - 1;
+    delta_v_escape = sqrt(G * (M_Earth + m_SC) / (R_earth + r_p1)) * ... 
+        sqrt(2 + (V_infinity_D * sqrt(R_earth + r_p1) / sqrt(G * (M_Earth + m_SC)))^2) - 1;
     
     % Evaluate constraints
     S1_constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...

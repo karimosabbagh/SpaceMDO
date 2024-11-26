@@ -1,17 +1,4 @@
-% define constants
-M_Earth = 5.974e24;         % kg
-M_Sun = 1.989e30;           % kg
-M_mars = 6.417e23;          % kg
-r_Earth = 6378 * 1000;      % m
-r_mars = 3396 * 1000;       % m
-G = 6.6742e-11;             % m^3/kg*s^2
-
-% constraint constants
-r_p2_min = 150 * 1000;       % m
-r_p2_max = 1000 * 1000;     % m
-TOF_min = 128;              % days
-TOF_max = 500;              % days
-
+function [delta_v_capture, V_SC_arrival, S2_constraints] = orbital_capture_delta_v(e, m_SC, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date)
 % inputs to vary in parametric study
 % m_SC                       % kg (from Propellant and Structure Mass Subsystem)
 % delta_m_d                  % kg (from Propellant subsystem)
@@ -19,13 +6,18 @@ TOF_max = 500;              % days
 % r_p2                       % m
 % departure_date             % 'year-month-day'
 % arrival_date               % 'year-month-day'
-function [delta_v_capture, V_SC_arrival, S2_constraint] = orbital_capture_delta_v(e, m_SC, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date)
 
- global R_earth G M_Earth M_Sun earth_orbital_data mars_orbital_data;
+% constraint constants
+r_p2_min = 150 * 1000;       % m
+r_p2_max = 1000 * 1000;     % m
+TOF_min = 128;              % days
+TOF_max = 500;              % days
+
+ global G  M_Sun earth_orbital_data mars_orbital_data;
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
-    departure_row = earth_result_table(earth_result_table.DepartureDate == departure_date, :);
-    arrival_row = mars_result_table(mars_result_table.ArrivalDate == arrival_date, :);
+    departure_row = earth_orbital_data(earth_result_table.DepartureDate == departure_date, :);
+    arrival_row = mars_orbital_data(mars_result_table.ArrivalDate == arrival_date, :);
 
     R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
     R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
@@ -46,6 +38,12 @@ function [delta_v_capture, V_SC_arrival, S2_constraint] = orbital_capture_delta_
     % calculate delta v
     delta_v_capture = sqrt(V_infinity_A ^ 2 + 2 * G * (M_mars + (m_SC - delta_m_d)) / (r_p2)) + ... 
         sqrt(G * (M_mars + (m_SC - delta_m_d)) * (1 + e) / (r_p2));
+
+    % Time of flight
+    tof = determine_tof(departure_date, arrival_date);
+    
+    % Define Outputs
+    y = [V_SC_arrival, tof];
 
     % Evaluate constraints
     S2_constraints = S2_evaluate_constraints(r_p2, e, V_SC_arrival, V_Mars_arrival, ...
@@ -76,24 +74,12 @@ end
 
 function S2_constraints = S2_evaluate_constraints(r_p2, V_SC_arrival, V_Mars_arrival, ...
     departure_date, arrival_date)
+                                                 
+    % g1: Hyperbolic excess velocity constraint (V_SC_capture - V_Mars_arrival < 0)
+    c1 = V_SC_capture - V_Mars_arrival;               
 
-  % g1: Parking orbit constraint (r_p2_min <= r_p2 <= r_p2_max)
-    c1 = r_p2;                                                     
-
-    % g2: Hyperbolic excess velocity constraint (V_D^(v) - V_Earth > 0)
-    c2 = V_SC_capture - V_Mars_arrival;               
-
-    % g3: Launch window constraint (launch window start <= departure_date <= launch window end)
-    c3 = departure_date;
-    
-    % g4: Time of flight constraint; (tof_min <= t_A - t_D <= tof_max)
-    tof = determine_tof(departure_date, arrival_date);
-    c4 = tof;              
-
-    % g5: Eccentricity
-    c5 = e;
-
+   
     % Combine constraints
-    S1_constraints = [c1, c2, c3, c4, c5];
+    S1_constraints = c1;
 
 end

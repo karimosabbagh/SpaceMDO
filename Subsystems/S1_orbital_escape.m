@@ -1,4 +1,4 @@
-function [delta_v_escape, V_SC_departure, S1_constraints] = ...
+function [delta_v_escape, y , S1_constraints] = ...
     orbital_escape_delta_v(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
     %
     % Determine the delta_v to escape Earth's gravitational sphere of influence and 
@@ -16,7 +16,7 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     %   V_SC_departure    - velocity of spacecraft at Earth SOI (m/s)
     %   constraints       - Array of constraint values [c1, c2, c3, c4]
 
-    global R_earth G M_Earth M_Sun earth_orbital_data mars_orbital_data;
+    global G M_Earth M_Sun earth_orbital_data mars_orbital_data;
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
     departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);
@@ -33,9 +33,13 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     V_infinity_D = V_SC_departure - V_Earth_departure;
     
     % calculate delta v
-    delta_v_escape = sqrt(G * (M_Earth + m_SC) / (R_earth + r_p1)) * ... 
-        sqrt(2 + (V_infinity_D * sqrt(R_earth + r_p1) / sqrt(G * (M_Earth + m_SC)))^2) - 1;
-    
+    delta_v_escape = sqrt(G * (M_Earth + m_SC) / (r_p1)) * ... 
+        sqrt(2 + (V_infinity_D * sqrt( r_p1) / sqrt(G * (M_Earth + m_SC)))^2) - 1;
+
+    tof = determine_tof(departure_date, arrival_date);
+
+    y = [V_SC_departure tof];
+
     % Evaluate constraints
     S1_constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
         departure_date, arrival_date);
@@ -66,23 +70,12 @@ function tof = determine_tof(departure_date, arrival_date)
 end
 
 
-function S1_constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
-    departure_date, arrival_date)
+function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_departure)
 
-    % g1: Parking orbit constraint (r_p1_min <= r_p1 <= r_p1_max)
-    c1 = r_p1;                                                     
-
-    % g2: Hyperbolic excess velocity constraint (V_D^(v) - V_Earth > 0)
-    c2 = V_SC_departure - V_Earth_departure;               
-
-    % g3: Launch window constraint (launch window start <= departure_date <= launch window end)
-    c3 = departure_date;
-    
-    % g4: Time of flight constraint; (tof_min <= t_A - t_D <= tof_max)
-    tof = determine_tof(departure_date, arrival_date);
-    c4 = tof;              
-
+   % g1: Hyperbolic excess velocity constraint (V_D^(v) - V_Earth > 0)
+    c1 = V_SC_departure - V_Earth_departure;               
+              
     % Combine constraints
-    S1_constraints = [c1, c2, c3, c4];
+    S1_constraints = c1;
 
 end

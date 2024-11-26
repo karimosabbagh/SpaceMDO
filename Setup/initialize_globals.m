@@ -3,7 +3,7 @@ function initialize_globals()
 
 
     global G M_Earth M_Mars M_Sun R_earth R_mars Res_min earth_orbital_data mars_orbital_data date_range;
-
+    
     % Define global constants
     G = 6.67430e-11;      % Gravitational constant (m^3/kg/s^2)
     M_Earth = 5.972e24;         % Mass of Earth (kg)
@@ -21,7 +21,8 @@ function initialize_globals()
     end_date = datetime('2027-06-11', 'InputFormat', 'yyyy-MM-dd');
     date_step = days(1);
     date_range = start_date:date_step:end_date;
-  
+
+    save daterange date_range
     % Load data from CSV files
     try
         earth_orbital_data = readtable('earth_result_table.csv');

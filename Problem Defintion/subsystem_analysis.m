@@ -24,11 +24,12 @@ switch subproblem_index
         c_ineq = S1_constraints;
     case 2
         % Subproblem 2 - ORBITAL CAPTURE
-        [u,w,a] = get_variable(x_DV,PB,'u_2','w','a_2');            
-        b = 1/(u+LAMBDA)+1/(w+LAMBDA)+1/(a+LAMBDA);
-        obj = 0;
-        y = b;
-        c_ineq = w+b-10;
+        [m_SC, r_p2, V_SC_departure, departure_date, arrival_date, e] = get_variable(x_DV,PB,'m_SC_c', 'r_p_c', 'V_SC_departure_c', 'departure_date_c', 'arrival_date_c', 'e_c');            
+        [delta_v_capture, V_SC_arrival, S2_constraints] = orbital_capture_delta_v(e, m_SC, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date);
+        obj = delta_v_capture;
+        c_ineq = S2_constraints;
+        y = V_SC_arrival;
+
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS
         [delta_v_escape, delta_v_arrival,tof_s] = get_variable(x_DV,PB,'delta_v_escape_e','delta_v_arrival_e','tof_s');

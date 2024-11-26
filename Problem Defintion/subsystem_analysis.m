@@ -40,11 +40,11 @@ switch subproblem_index
         c_ineq = w+b-10;
      case 4
         % Subproblem 4 - PLANET COVERAGE
-        [u,w,a] = get_variable(x_DV,PB,'u_4','w','a_4');            
-        b = 1/(u+LAMBDA)+1/(w+LAMBDA)+1/(a+LAMBDA);
-        obj = 0;
-        y = b;
-        c_ineq = w+b-10;
+        [r_p, e, T_orbit, eta_center, eta_FOV_tilde, IFOV] = get_variable(x_DV, PB, 'r_p3', 'e_4', 'T_orbit_4', 'eta_center', 'eta_FOV', 'IFOV');
+        [percent_coverage, T_orbit, S4_constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV);
+        obj = percent_coverage;
+        y = T_orbit;
+        c_ineq = S4_constraints;
     otherwise
         error('unrecognized subproblem index')
 end

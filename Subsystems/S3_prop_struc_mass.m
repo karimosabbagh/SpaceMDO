@@ -1,8 +1,11 @@
-function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structure_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date)
+function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date)
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Setup');
     addpath(subsytems);
+
+    departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
 
     % define constants
     m_payload = 1000;           % kg, similar to Mars Recon Orbiter

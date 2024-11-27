@@ -1,5 +1,5 @@
 function [delta_v_escape, V_SC_departure, S1_constraints] = ...
-    orbital_escape_delta_v(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
+    S1_orbital_escape(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
     %
     % Determine the delta_v to escape Earth's gravitational sphere of influence and 
     % velocity of spacecraft at departure
@@ -23,6 +23,9 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     
 
     global G M_Earth M_Sun earth_orbital_data mars_orbital_data;
+
+    departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
     departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);

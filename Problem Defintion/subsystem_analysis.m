@@ -17,14 +17,14 @@ switch subproblem_index
     case 1
         % Subproblem 1 - ORBITAL ESCAPE
         [m_SC, r_p1, V_SC_arrival, departure_date, arrival_date] = get_variable(x_DV,PB,'m_SC_e', 'r_p_e', 'V_SC_arrival_e', 'departure_date_e', 'arrival_date_e');
-        [delta_v_escape, V_SC_departure, S1_constraints] = orbital_escape_delta_v(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date);
+        [delta_v_escape, V_SC_departure, S1_constraints] = S1_orbital_escape(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date);
         obj = delta_v_escape;
         y = V_SC_departure;
         c_ineq = S1_constraints;
     case 2
         % Subproblem 2 - ORBITAL CAPTURE
         [m_SC, r_p2, V_SC_departure, departure_date, arrival_date, e] = get_variable(x_DV,PB,'m_SC_c', 'r_p_c', 'V_SC_departure_c', 'departure_date_c', 'arrival_date_c', 'e_c');            
-        [delta_v_capture, V_SC_arrival, S2_constraints] = orbital_capture_delta_v(e, m_SC, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date);
+        [delta_v_capture, V_SC_arrival, S2_constraints] = S2_orbital_capture(e, m_SC, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date);
         obj = delta_v_capture;
         c_ineq = S2_constraints;
         y = V_SC_arrival;
@@ -32,7 +32,7 @@ switch subproblem_index
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS
         [delta_v_escape,delta_v_arrival, departure_date, arrival_date] = get_variable(x_DV,PB,'delta_v_escape_s','delta_v_capture_s','departure_date_s', 'arrival_date_s');
-        [m_prop, m_structure, m_SC, Isp, cost, S3_constraints] = propellant_structure_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date);
+        [m_prop, m_structure, m_SC, Isp, cost, S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date);
         obj = cost;
         c_ineq(1) = S3_constraints(1);
         c_ineq(2) = S3_constraints(2);

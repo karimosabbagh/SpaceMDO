@@ -4,7 +4,6 @@ function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structur
     subsytems = fullfile(currentFilePath, '..', 'Setup');
     addpath(subsytems);
 
-
     % define constants
     m_payload = 1000;           % kg, similar to Mars Recon Orbiter
     g = 9.81;                   % m/s^2
@@ -13,7 +12,7 @@ function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structur
     c_struct = 70;              % $/kg
     n = 0.75;                    % 
     c_isp = 40;                  % $/s
-    lam = 0.9;                  % 
+    lam = 1.1;                  % 
     d_Earth = 1;                  % Earth's orbital radius (AU)
     d_Mars = 1.52;                % Mars' orbital radius (AU)
     a = (d_Earth + d_Mars) / 2;   % Semi-major axis (AU)
@@ -21,10 +20,10 @@ function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structur
     mu = 1.327e11;                % Solar gravitational parameter (km^3/s^2) 
     
     % constraint constants
-    m_minshield = 50; % minimum shield mass required for all missions
-    beta = 0.2; 
+    m_minshield = 100; % minimum shield mass required for all missions
+    beta = 0.3; 
     D_avg = 657;                  % Radiation dose at 1 AU (mSv/year), local parameter
-    alpha = 3.2;  % radiation absorbed / kg of material (mSv/kg)
+    alpha = 100;  % radiation absorbed / kg of material (mSv/kg)
      
     % objective function
     cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam;
@@ -59,12 +58,13 @@ function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structur
 
     D = D_avg * (1 ./ r).^2;
     D_total = trapz(times, D); % Integrate to find a total dose applied to spacecraft across flight
-
     g2 = m_minshield + D_total/(alpha) - beta*m_structure;  % beta*m_structure = m_minshield + alpha*(D_total)
-
+    
     S3_constraints = [g1, g2];
 
 end
+
+
 
 
 

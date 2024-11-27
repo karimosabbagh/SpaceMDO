@@ -6,7 +6,7 @@ function PB = problem_definition
 % You can define as many such variables as you want.
 PB.UserData.LAMBDA = 0;
 
-global date_range R_mars;
+global R_mars R_earth start_date end_date;
 
 lb = 0;
 ub = inf;
@@ -20,8 +20,8 @@ ub = inf;
 PB.var{1}   = {'delta_v_escape_e'     1    true     [22]       1    lb                ub};
 PB.var{2}   = {'m_SC_e'               1    false    [9,18]     1    lb                ub};  
 PB.var{3}   = {'r_p_e'                1    false    []         1    R_earth + 160e3   R_earth + 2000e3}; 
-PB.var{4}   = {'departure_date_e'     1    false    [13,24]    1    date_range(1)     date_range(end)};
-PB.var{5}   = {'arrival_date_e'       1    false    [14,25]    1    date_range(1)     date_range(end)};
+PB.var{4}   = {'departure_date_e'     1    false    [13,24]    1    start_date        end_date};
+PB.var{5}   = {'arrival_date_e'       1    false    [14,25]    1    start_date        end_date};
 PB.var{6}   = {'V_SC_departure_e'     1    true     [15]       1    lb                ub};
 PB.var{7}   = {'V_SC_arrival_e'       1    false    [16]       1    lb                ub};
 
@@ -32,8 +32,8 @@ PB.var{9}   = {'m_SC_c'               2    false    [2,18]     1    lb          
 PB.var{10}  = {'m_prop_c'             2    false    [19]       1    lb                ub}; 
 PB.var{11}  = {'r_p_c'                2    false    [27]       1    R_mars + 100e3    170 * R_mars}; 
 PB.var{12}  = {'e_c'                  2    false    []         1    lb                1};
-PB.var{13}  = {'departure_date_c'     2    false    [4,24]     1    date_range(1)     date_range(end)};
-PB.var{14}  = {'arrival_date_c'       2    false    [5,25]     1    date_range(1)     date_range(end)};
+PB.var{13}  = {'departure_date_c'     2    false    [4,24]     1    start_date        end_date};
+PB.var{14}  = {'arrival_date_c'       2    false    [5,25]     1    start_date        end_date};
 PB.var{15}  = {'V_SC_departure_c'     2    false    [6]        1    lb                ub};
 PB.var{16}  = {'V_SC_arrival_c'       2    true     [7]        1    lb                ub};
 
@@ -46,8 +46,8 @@ PB.var{20}   = {'m_structure_s'       3    false    []        1    lb           
 PB.var{21}   = {'Isp'                 3    false    []        1    1                  600}; 
 PB.var{22}   = {'delta_v_escape_s'    3    false    [1]       1    lb                 ub};
 PB.var{23}   = {'delta_v_capture_s'   3    false    [9]       1    lb                 ub};
-PB.var{24}   = {'departure_date_s'    2    false    [4,13]    1    date_range(1)      date_range(end)};
-PB.var{25}   = {'arrival_date_s'      2    false    [5,14]    1    date_range(1)      date_range(end)};
+PB.var{24}   = {'departure_date_s'    2    false    [4,13]    1    start_date         end_date};
+PB.var{25}   = {'arrival_date_s'      2    false    [5,14]    1    start_date         end_date};
 
 % PLANET COVERAGE
 %----------------------------------------------------------

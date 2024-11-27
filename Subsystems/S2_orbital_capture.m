@@ -1,4 +1,4 @@
-function [delta_v_capture, V_SC_arrival, S2_constraints] = orbital_capture_delta_v(e, m_SC, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date)
+function [delta_v_capture, V_SC_arrival, S2_constraints] = S2_orbital_capture(e, m_SC, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date)
 % inputs to vary in parametric study
 % m_SC                       % kg (from Propellant and Structure Mass Subsystem)
 % delta_m_d                  % kg (from Propellant subsystem)
@@ -13,6 +13,9 @@ subsytems = fullfile(currentFilePath, '..', 'Setup');
 addpath(subsytems);
 
  global G M_Mars M_Sun earth_orbital_data mars_orbital_data;
+
+    departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
     departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);

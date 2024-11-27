@@ -30,7 +30,7 @@ close all
 clear all
 addpath NoHIMDO_solver
 addpath Setup\
-addpath 'Problem Defintion'/
+addpath 'Problem Defintion'\
 
 % Initialize variables
 %global G M R_earth R_mars earth_orbital_data mars_result_data;

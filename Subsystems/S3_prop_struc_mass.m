@@ -1,4 +1,10 @@
-function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structure_mass(delta_v_escape,delta_v_arrival,t_D,t_A)
+function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structure_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date)
+    % Add subsystem paths
+    currentFilePath = fileparts(mfilename('fullpath'));
+    subsytems = fullfile(currentFilePath, '..', 'Setup');
+    addpath(subsytems);
+
+
     % define constants
     m_payload = 1000;           % kg, similar to Mars Recon Orbiter
     g = 9.81;                   % m/s^2
@@ -29,7 +35,8 @@ function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = propellant_structur
     % Relation between masses and velocity total delta V
     delta_v = delta_v_escape + delta_v_arrival; 
     
-    tof = t_A - t_D;
+    % calculate time of flight
+    tof = determine_tof(departure_date, arrival_date);
 
     % g1: Minimum propellant mass required
     g1 = m_SC*(1-exp(-1*delta_v/(g*Isp)))- m_prop;     % m_prop >= m_SC*(1-^(-delta_v/g*Isp))

@@ -1,4 +1,4 @@
-function [delta_v_escape, y , S1_constraints] = ...
+function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     orbital_escape_delta_v(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
     %
     % Determine the delta_v to escape Earth's gravitational sphere of influence and 
@@ -14,7 +14,12 @@ function [delta_v_escape, y , S1_constraints] = ...
     % Outputs:
     %   obj               - objective value (delta_v to escape Earth SOI (m/s))
     %   V_SC_departure    - velocity of spacecraft at Earth SOI (m/s)
-    %   constraints       - Array of constraint values [c1, c2, c3, c4]
+    %   constraints       - Array of constraint values [c1, c2, c3]
+
+    % Add subsystem paths
+    currentFilePath = fileparts(mfilename('fullpath'));
+    subsytems = fullfile(currentFilePath, '..', 'Setup');
+    addpath(subsytems);
 
     global G M_Earth M_Sun earth_orbital_data mars_orbital_data;
 
@@ -36,13 +41,11 @@ function [delta_v_escape, y , S1_constraints] = ...
     delta_v_escape = sqrt(G * (M_Earth + m_SC) / (r_p1)) * ... 
         sqrt(2 + (V_infinity_D * sqrt( r_p1) / sqrt(G * (M_Earth + m_SC)))^2) - 1;
 
+    % calculate time of flight
     tof = determine_tof(departure_date, arrival_date);
 
-    y = [V_SC_departure tof];
-
     % Evaluate constraints
-    S1_constraints = S1_evaluate_constraints(r_p1, V_SC_departure, V_Earth_departure, ...
-        departure_date, arrival_date);
+    S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_departure, tof);
 
 end
 
@@ -70,12 +73,16 @@ function tof = determine_tof(departure_date, arrival_date)
 end
 
 
-function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_departure)
+function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_departure, tof)
 
    % g1: Hyperbolic excess velocity constraint (V_D^(v) - V_Earth > 0)
-    c1 = V_SC_departure - V_Earth_departure;               
+    c1 = V_SC_departure - V_Earth_departure;   
+
+   % g2: Time of flight
+    c2 = 128 - tof;
+    c3 = tof - 500;
               
     % Combine constraints
-    S1_constraints = c1;
+    S1_constraints = [c1, c2, c3];
 
 end

@@ -28,8 +28,8 @@ PB.var{7}   = {'V_SC_arrival_e'       1    false    [16]       1    lb          
 % ORBITAL CAPTURE
 %----------------------------------------------------------
 PB.var{8}   = {'delta_v_capture_c'    2    true     [23]       1    lb                ub};
-PB.var{9}   = {'m_SC_c'               2    false    [2,18]     1    lb                ub};  % from Spacecraft & Propellant Mass
-PB.var{10}  = {'m_prop_c'             2    false    [19]       1    lb                ub};  % from Spacecraft & Propellant Mass
+PB.var{9}   = {'m_SC_c'               2    false    [2,18]     1    lb                ub}; 
+PB.var{10}  = {'m_prop_c'             2    false    [19]       1    lb                ub}; 
 PB.var{11}  = {'r_p_c'                2    false    [27]       1    R_mars + 100e3    170 * R_mars}; 
 PB.var{12}  = {'e_c'                  2    false    []         1    lb                1};
 PB.var{13}  = {'departure_date_c'     2    false    [4,24]     1    date_range(1)     date_range(end)};

@@ -18,8 +18,9 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
 
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
-    subsytems = fullfile(currentFilePath, '..', 'Setup');
-    addpath(subsytems);
+    setup = fullfile(currentFilePath, '..', 'Setup');
+    addpath(setup);
+    
 
     global G M_Earth M_Sun earth_orbital_data mars_orbital_data;
 
@@ -39,7 +40,7 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     
     % calculate delta v
     delta_v_escape = sqrt(G * (M_Earth + m_SC) / (r_p1)) * ... 
-        sqrt(2 + (V_infinity_D * sqrt( r_p1) / sqrt(G * (M_Earth + m_SC)))^2) - 1;
+        sqrt(2 + (V_infinity_D * sqrt(r_p1) / sqrt(G * (M_Earth + m_SC)))^2) - 1;
 
     % calculate time of flight
     tof = determine_tof(departure_date, arrival_date);
@@ -50,33 +51,10 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
 end
 
 
-function tof = determine_tof(departure_date, arrival_date)
-% Compute the Julian day number at 0 UT for departure and arrival dates, and the time of flight
-    
-    % Extract year, month, and day
-    departure_year = year(departure_date);
-    departure_month = month(departure_date);
-    departure_day = day(departure_dt);
-
-    arrival_year = year(arrival_date);
-    arrival_month = month(arrival_date);
-    arrival_day = day(arrival_date);
-    
-    % Compute J0 values
-    jd1 = 367*departure_year - fix(7*(departure_year + fix((departure_month + 9)/12))/4) + ...
-        fix(275*departure_month/9) + departure_day + 1721013.5;
-    jd2 = 367*arrival_year - fix(7*(arrival_year + fix((arrival_month + 9)/12))/4) + ...
-        fix(275*arrival_month/9) + arrival_day + 1721013.5;
-
-    % Determine TOF
-    tof = jd2 - jd1;
-end
-
-
 function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_departure, tof)
 
    % g1: Hyperbolic excess velocity constraint (V_D^(v) - V_Earth > 0)
-    c1 = V_SC_departure - V_Earth_departure;   
+    c1 = V_Earth_departure - V_SC_departure;   
 
    % g2: Time of flight
     c2 = 128 - tof;

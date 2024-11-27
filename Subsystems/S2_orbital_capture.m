@@ -29,10 +29,10 @@ addpath(subsytems);
     
     % hyperbolic escape velocity
     V_infinity_A = V_SC_arrival - V_Mars_arrival;
-    
-    % calculate delta v
+
     delta_v_capture = sqrt(V_infinity_A ^ 2 + 2 * G * (M_Mars + (m_SC - delta_m_d)) / (r_p2)) + ... 
         sqrt(G * (M_Mars + (m_SC - delta_m_d)) * (1 + e) / (r_p2));
+
     % Evaluate constraints
     S2_constraints = S2_evaluate_constraints(V_SC_arrival, V_Mars_arrival);
 end 

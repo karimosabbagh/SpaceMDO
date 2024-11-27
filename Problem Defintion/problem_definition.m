@@ -12,7 +12,6 @@ lb = 0;
 ub = inf;
 
 
-
 %              Name                   SP    CV    links       dim   lb               ub
 %
 % ORBITAL ESCAPE
@@ -46,17 +45,17 @@ PB.var{20}   = {'m_structure_s'       3    false    []        1    lb           
 PB.var{21}   = {'Isp'                 3    false    []        1    1                  600}; 
 PB.var{22}   = {'delta_v_escape_s'    3    false    [1]       1    lb                 ub};
 PB.var{23}   = {'delta_v_capture_s'   3    false    [9]       1    lb                 ub};
-PB.var{24}   = {'departure_date_s'    2    false    [4,13]    1    start_date         end_date};
-PB.var{25}   = {'arrival_date_s'      2    false    [5,14]    1    start_date         end_date};
+PB.var{24}   = {'departure_date_s'    3    false    [4,13]    1    start_date         end_date};
+PB.var{25}   = {'arrival_date_s'      3    false    [5,14]    1    start_date         end_date};
 
 % PLANET COVERAGE
 %----------------------------------------------------------
 PB.var{26}   = {'r_p_p'               4    false    [11]      1    R_mars             170 * R_mars  };
-PB.var{27}   = {'e_p'                 2    false    [12]      1    lb                 1};
-PB.var{28}   = {'T_orbit'             4    false    []        1    1e3                ub};  
-PB.var{29}   = {'eta_center'          4    false    []        1    lb                 deg2rad(45)};
-PB.var{30}   = {'eta_FOV'             4    false    []        1    lb                 deg2rad(35)};
-PB.var{31}   = {'IFOV'                4    false    []        1    1e-3               10};
+PB.var{27}   = {'e_p'                 4    false    [12]      1    lb                 1};
+%PB.var{28}   = {'T_orbit'             4    false    []        1    1e3                ub};  
+PB.var{28}   = {'eta_center'          4    false    []        1    lb                 deg2rad(45)};
+PB.var{29}   = {'eta_FOV'             4    false    []        1    lb                 deg2rad(35)};
+PB.var{30}   = {'IFOV'                4    false    []        1    1e-3               10};
 
 
 % The objective function of sub-system index_main is considered as the 

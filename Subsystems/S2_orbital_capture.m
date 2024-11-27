@@ -44,7 +44,7 @@ end
 function S2_constraints = S2_evaluate_constraints(V_SC_arrival, V_Mars_arrival)
                                                  
     % g1: Hyperbolic excess velocity constraint (V_SC_capture - V_Mars_arrival < 0)
-    c1 = V_SC_arrival - V_Mars_arrival;               
+    c1 = V_Mars_arrival - V_SC_arrival;               
 
     % Combine constraints
     S2_constraints = c1;

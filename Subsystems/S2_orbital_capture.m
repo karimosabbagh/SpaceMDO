@@ -12,11 +12,11 @@ currentFilePath = fileparts(mfilename('fullpath'));
 subsytems = fullfile(currentFilePath, '..', 'Setup');
 addpath(subsytems);
 
- global G  M_Sun earth_orbital_data mars_orbital_data;
+ global G M_Mars M_Sun earth_orbital_data mars_orbital_data;
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
-    departure_row = earth_orbital_data(earth_result_table.DepartureDate == departure_date, :);
-    arrival_row = mars_orbital_data(mars_result_table.ArrivalDate == arrival_date, :);
+    departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);
+    arrival_row = mars_orbital_data(mars_orbital_data.ArrivalDate == arrival_date, :);
 
     R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
     R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
@@ -29,14 +29,12 @@ addpath(subsytems);
     
     % hyperbolic escape velocity
     V_infinity_A = V_SC_arrival - V_Mars_arrival;
-    
-    % calculate delta v
-    delta_v_capture = sqrt(V_infinity_A ^ 2 + 2 * G * (M_mars + (m_SC - delta_m_d)) / (r_p2)) + ... 
-        sqrt(G * (M_mars + (m_SC - delta_m_d)) * (1 + e) / (r_p2));
+
+    delta_v_capture = sqrt(V_infinity_A ^ 2 + 2 * G * (M_Mars + (m_SC - delta_m_d)) / (r_p2)) + ... 
+        sqrt(G * (M_Mars + (m_SC - delta_m_d)) * (1 + e) / (r_p2));
 
     % Evaluate constraints
-    S2_constraints = S2_evaluate_constraints(r_p2, e, V_SC_arrival, V_Mars_arrival, ...
-        departure_date, arrival_date);
+    S2_constraints = S2_evaluate_constraints(V_SC_arrival, V_Mars_arrival);
 end 
 
 

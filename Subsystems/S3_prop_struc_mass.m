@@ -1,4 +1,4 @@
-function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date)
+function [m_prop,m_structure,m_payload,Isp,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date)
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Setup');
@@ -8,7 +8,7 @@ function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = S3_prop_struc_mass(
     arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
 
     % define constants
-    m_payload = 1000;           % kg, similar to Mars Recon Orbiter
+    m_SC = 3000;           % kg, similar to Mars Recon Orbiter
     g = 9.81;                   % m/s^2
     c_prop = 50;                % $/kg
     gamma = 0.8;                % 
@@ -30,7 +30,7 @@ function [m_prop,m_structure,m_SC,Isp,cost,S3_constraints] = S3_prop_struc_mass(
      
     % objective function
     cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam;
-    m_SC = m_structure + m_prop + m_payload;
+    m_payload = m_SC - m_structure - m_prop;
 
     % constraints
 

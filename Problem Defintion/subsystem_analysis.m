@@ -31,8 +31,7 @@ switch subproblem_index
 
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS
-
-        [delta_v_escape,delta_v_arrival,tof_s] = get_variable(x_DV,PB,'delta_v_escape_e','delta_v_arrival_e','tof_s');
+        [delta_v_escape,delta_v_arrival,tof_s] = get_variable(x_DV,PB,'m_payload','delta_v_escape_e','delta_v_arrival_e','tof_s');
         [m_prop,m_structure,m_payload,Isp,cost,S3_constraints] = propellant_structure_mass(delta_v_escape,delta_v_arrival,tof_s);
         obj = cost;
         c_ineq(1) = S3_constraints(1);

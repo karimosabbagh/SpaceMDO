@@ -40,7 +40,7 @@ PB.var{16}  = {'V_SC_arrival_c'       2    true     [7]        1    lb          
 % SPACECRAFT & PROPELLANT MASS
 %----------------------------------------------------------
 PB.var{17}   = {'cost'                3    false    []        1    lb                 ub}; 
-% PB.var{18}   = {'m_SC_s'              3    true     [2,9]     1    lb                 3000}; 
+% PB.var{18}   = {'m_SC_s'              3    true     [2,9]     1    lb                 3000};
 PB.var{19}   = {'m_prop_s'            3    true     [10]      1    lb                 1000};
 PB.var{20}   = {'m_structure_s'       3    false    []        1    lb                 1000};
 PB.var{21}   = {'Isp'                 3    false    []        1    1                  600}; 
@@ -48,6 +48,8 @@ PB.var{22}   = {'delta_v_escape_s'    3    false    [1]       1    lb           
 PB.var{23}   = {'delta_v_capture_s'   3    false    [9]       1    lb                 ub};
 PB.var{24}   = {'departure_date_s'    2    false    [4,13]    1    start_date         end_date};
 PB.var{25}   = {'arrival_date_s'      2    false    [5,14]    1    start_date         end_date};
+PB.var{32}   = {'m_payload'           2    false    []        1    lb                 1000};
+
 
 % PLANET COVERAGE
 %----------------------------------------------------------

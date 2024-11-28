@@ -1,6 +1,6 @@
-function [delta_v_capture, V_SC_arrival, S2_constraints] = S2_orbital_capture(e, m_SC, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date)
+function [delta_v_capture, V_SC_arrival, S2_constraints] = S2_orbital_capture(e, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date)
 % inputs to vary in parametric study
-% m_SC                       % kg (from Propellant and Structure Mass Subsystem)
+% m_SC                       % 3000 kg (from Propellant and Structure Mass Subsystem)
 % delta_m_d                  % kg (from Propellant subsystem)
 % V_SC_departure             % m/s (from Orbital Escape Subsystem)
 % r_p2                       % m
@@ -24,7 +24,7 @@ addpath(subsytems);
     R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
     R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
     V_Mars_arrival = [arrival_row.Mars_Velocity_Magnitude] * 1000; % m/s
-
+    m_SC = 3000; %kg
 
     % spacecraft departure velocity
     V_SC_arrival = sqrt(V_SC_departure^2 + 2 * G * (M_Sun + (m_SC - delta_m_d)) * ...

@@ -1,11 +1,11 @@
 function [delta_v_escape, V_SC_departure, S1_constraints] = ...
-    S1_orbital_escape(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
+    S1_orbital_escape(r_p1, V_SC_arrival, departure_date, arrival_date)
     %
     % Determine the delta_v to escape Earth's gravitational sphere of influence and 
     % velocity of spacecraft at departure
     %
     % Inputs:
-    %   m_SC              - spacecraft mass (kg)
+    %   m_SC              - spacecraft mass (kg) SETTING TO 3000 KG
     %   r_p1              - radius of parking orbit (m)
     %   V_SC_arrival      - velocity of spacecraft at Mars arrival SOI (m/s)
     %   departure_date    - date of departure (year-month-day)
@@ -33,6 +33,7 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
     V_Earth_departure = [departure_row.Earth_Velocity_Magnitude] * 1000; % m/s
     R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
+    m_SC = 3000; %kg
 
     % spacecraft departure velocity
     V_SC_departure = sqrt(V_SC_arrival^2 + 2 * G * (M_Sun + m_SC) * ...

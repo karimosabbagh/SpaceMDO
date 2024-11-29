@@ -1,11 +1,11 @@
-function [m_prop,m_structure,m_payload,Isp,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date)
+function [m_payload,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, m_prop)
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Setup');
     addpath(subsytems);
 
-    departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
-    arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    % departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
+    % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
 
     % define constants
     m_SC = 3000;           % kg, similar to Mars Recon Orbiter
@@ -16,17 +16,16 @@ function [m_prop,m_structure,m_payload,Isp,cost,S3_constraints] = S3_prop_struc_
     n = 0.75;                    % 
     c_isp = 40;                  % $/s
     lam = 1.1;                  % 
-    d_Earth = 1;                  % Earth's orbital radius (AU)
-    d_Mars = 1.52;                % Mars' orbital radius (AU)
-    a = (d_Earth + d_Mars) / 2;   % Semi-major axis (AU)
-    e = (d_Mars - d_Earth) / (d_Mars + d_Earth); % Eccentricity
-    mu = 1.327e11;                % Solar gravitational parameter (km^3/s^2) 
     
     % constraint constants
     m_minshield = 100; % minimum shield mass required for all missions
     beta = 0.3; 
     D_avg = 657;                  % Radiation dose at 1 AU (mSv/year), local parameter
     alpha = 100;  % radiation absorbed / kg of material (mSv/kg)
+    d_Earth = 1;                  % Earth's orbital radius (AU)
+    d_Mars = 1.52;                % Mars' orbital radius (AU)
+    a = (d_Earth + d_Mars) / 2;   % Semi-major axis (AU)
+    e = (d_Mars - d_Earth) / (d_Mars + d_Earth); % Eccentricity
      
     % objective function
     cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam;
@@ -48,7 +47,9 @@ function [m_prop,m_structure,m_payload,Isp,cost,S3_constraints] = S3_prop_struc_
     n_points = 1000;
     times = linspace(0, tof, n_points); % Number of times across the transfer period
 
+    
     M = 2 * pi * times / (2*tof); % Mean anomaly for each time
+    
 
     E = zeros(size(M));
     for i = 1:length(M)

@@ -14,12 +14,15 @@ addpath(subsytems);
 
  global G M_Mars M_Sun earth_orbital_data mars_orbital_data;
 
-    departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
-    arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    % departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
+    % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
+    
+    departure_date = fix(departure_date);
+    arrival_date = fix(arrival_date);
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
-    departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);
-    arrival_row = mars_orbital_data(mars_orbital_data.ArrivalDate == arrival_date, :);
+    departure_row = earth_orbital_data(earth_orbital_data.DateNum == departure_date, :);
+    arrival_row = mars_orbital_data(mars_orbital_data.DateNum == arrival_date, :);
 
     R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
     R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
@@ -44,7 +47,7 @@ end
 function S2_constraints = S2_evaluate_constraints(V_SC_arrival, V_Mars_arrival)
                                                  
     % g1: Hyperbolic excess velocity constraint (V_SC_capture - V_Mars_arrival < 0)
-    c1 = V_SC_arrival - V_Mars_arrival;               
+    c1 =  V_Mars_arrival -  V_SC_arrival ;               
 
     % Combine constraints
     S2_constraints = c1;

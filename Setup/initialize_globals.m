@@ -18,14 +18,23 @@ function initialize_globals()
 
     % Planetary Transfer date ranges
     start_date = datetime('2024-11-21', 'InputFormat', 'yyyy-MM-dd');
-    start_date = posixtime(start_date);
+    start_date = datenum(start_date);
     end_date = datetime('2027-06-11', 'InputFormat', 'yyyy-MM-dd');
-    end_date = posixtime(end_date);
+    end_date = datenum(end_date);
     
     % Load data from CSV files
     try
         earth_orbital_data = readtable('earth_result_table.csv');
         mars_orbital_data = readtable('mars_result_table.csv'); 
+
+
+        % Convert the dates to datenums
+        earth_orbital_data.DepartureDate = datetime(earth_orbital_data.DepartureDate, 'InputFormat', 'yyyy-MM-dd');
+        earth_orbital_data.DateNum = datenum(earth_orbital_data.DepartureDate);
+        mars_orbital_data.ArrivalDate = datetime(mars_orbital_data.ArrivalDate, 'InputFormat', 'yyyy-MM-dd');
+        mars_orbital_data.DateNum = datenum(mars_orbital_data.ArrivalDate);
+
+
 
         % Display a confirmation message
         disp('Global variables and CSV data initialized successfully.');

@@ -195,7 +195,12 @@ for no = 1:NO
     % User's display
     %======================================================================
     if isfield(PB,'end_of_iter_file')
-        eval([PB.end_of_iter_file '(PB,x,v,w,obj);']);
+        % eval([PB.end_of_iter_file '(PB,x,v,w,obj);']);
+        eval([PB.end_of_iter_file '(PB);']);
+        eval([PB.end_of_iter_file '(x);']);
+        eval([PB.end_of_iter_file '(v);']);
+        eval([PB.end_of_iter_file '(w);']);
+        eval([PB.end_of_iter_file '(obj);']);
     end
 
 

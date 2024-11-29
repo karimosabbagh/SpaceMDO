@@ -17,7 +17,7 @@ c_ineq = [];
 switch subproblem_index
     case 1
         % Subproblem 1 - ORBITAL ESCAPE
-        [r_p1, V_SC_arrival, V_SC_departure, departure_date, arrival_date] = get_variable(x_DV,PB, 'r_p_e', 'V_SC_arrival_e', 'V_SC_departure_e', 'departure_date_e', 'arrival_date_e');
+        [r_p1, V_SC_arrival, departure_date, arrival_date] = get_variable(x_DV,PB, 'r_p_e', 'V_SC_arrival_e', 'departure_date_e', 'arrival_date_e');
         [delta_v_escape, V_SC_departure, S1_constraints] = S1_orbital_escape(r_p1, V_SC_arrival, departure_date, arrival_date);
         obj = delta_v_escape;
         y = V_SC_departure;

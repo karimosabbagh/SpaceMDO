@@ -40,7 +40,7 @@ PB.var{14}  = {'V_SC_arrival_c'       2    true     [6]         1    lb         
 %----------------------------------------------------------
 PB.var{15}   = {'cost'                3    false    []        1    lb                 80e3}; 
 % PB.var{18}   = {'m_SC_s'            3    true     []        1    lb                 3000};
-%PB.var{16}   = {'m_prop_s'            3    false     []       1    lb                 1000};
+PB.var{16}   = {'m_prop_s'            3    false     []       1    lb                 1000};
 PB.var{17}   = {'m_structure_s'       3    false    []        1    lb                 1000};
 PB.var{18}   = {'Isp'                 3    false    []        1    1                  600}; 
 PB.var{19}   = {'delta_v_escape_s'    3    false    []        1    lb                 80e3};

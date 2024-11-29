@@ -4,8 +4,8 @@ function [m_payload,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,del
     subsytems = fullfile(currentFilePath, '..', 'Setup');
     addpath(subsytems);
 
-    departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
-    arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
+    % departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
+    % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
 
     % define constants
     m_SC = 3000;           % kg, similar to Mars Recon Orbiter

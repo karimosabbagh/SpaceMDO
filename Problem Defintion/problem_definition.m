@@ -19,8 +19,8 @@ ub = inf;
 PB.var{1}   = {'delta_v_escape_e'     1    true     []         1    lb                80e3};
 % PB.var{2}   = {'m_SC_e'             1    false    []         1    lb                ub};  
 PB.var{2}   = {'r_p_e'                1    false    []         1    R_earth + 160e3   R_earth + 2000e3}; 
-PB.var{3}   = {'departure_date_e'     1    false    []         1    start_date        end_date};
-PB.var{4}   = {'arrival_date_e'       1    false    []         1    start_date        end_date};
+PB.var{3}   = {'departure_date_e'     1    false    []         1    start_date        end_date - 128};
+PB.var{4}   = {'arrival_date_e'       1    false    []         1    start_date  + 128       end_date};
 PB.var{5}   = {'V_SC_departure_e'     1    true     [13]         1    lb                80e3};
 PB.var{6}   = {'V_SC_arrival_e'       1    false    [14]         1    lb                80e3};
 
@@ -31,8 +31,8 @@ PB.var{7}   = {'delta_v_capture_c'    2    true     []         1    lb          
 PB.var{8}  =  {'m_prop_c'             2    false    []         1    lb                80e3}; 
 PB.var{9}  =  {'r_p_c'                2    false    'r_p_p'         1    R_mars + 100e3    170 * R_mars}; 
 PB.var{10}  = {'e_c'                  2    false    []         1    lb                1};
-PB.var{11}  = {'departure_date_c'     2    false    []         1    start_date        end_date};
-PB.var{12}  = {'arrival_date_c'       2    false    []         1    start_date        end_date};
+PB.var{11}  = {'departure_date_c'     2    false    []         1    start_date        end_date - 128};
+PB.var{12}  = {'arrival_date_c'       2    false    []         1    start_date + 128        end_date};
 PB.var{13}  = {'V_SC_departure_c'     2    false    [5]         1    lb                80e3};
 PB.var{14}  = {'V_SC_arrival_c'       2    true     [6]         1    lb                80e3};
 
@@ -45,8 +45,8 @@ PB.var{17}   = {'m_structure_s'       3    false    []        1    lb           
 PB.var{18}   = {'Isp'                 3    false    []        1    1                  600}; 
 PB.var{19}   = {'delta_v_escape_s'    3    false    []        1    lb                 80e3};
 PB.var{20}   = {'delta_v_capture_s'   3    false    []        1    lb                 80e3};
-PB.var{21}   = {'departure_date_s'    3    false    []        1    start_date         end_date};
-PB.var{22}   = {'arrival_date_s'      3    false    []        1    start_date         end_date};
+PB.var{21}   = {'departure_date_s'    3    false    []        1    start_date         end_date -128};
+PB.var{22}   = {'arrival_date_s'      3    false    []        1    start_date + 128         end_date};
 PB.var{23}   = {'m_payload'           3    false    []        1    lb                 1000};
 
 % PLANET COVERAGE

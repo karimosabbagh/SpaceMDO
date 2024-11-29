@@ -1,5 +1,5 @@
 function [delta_v_escape, V_SC_departure, S1_constraints] = ...
-    S1_orbital_escape(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
+    S1_orbital_escape_test(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date)
     %
     % Determine the delta_v to escape Earth's gravitational sphere of influence and 
     % velocity of spacecraft at departure
@@ -24,8 +24,8 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
 
     global G M_Earth M_Sun earth_orbital_data mars_orbital_data;
 
-    departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
-    arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    %departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    %arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
     departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);
@@ -43,10 +43,11 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     
     % calculate delta v
     delta_v_escape = sqrt(G * (M_Earth + m_SC) / (r_p1)) * ... 
-        sqrt(2 + (V_infinity_D * sqrt(r_p1) / sqrt(G * (M_Earth + m_SC)))^2) - 1;
+        sqrt(2 + (V_infinity_D * sqrt(r_p1) / sqrt(G * (M_Earth + m_SC))).^2) - 1;
 
     % calculate time of flight
     tof = determine_tof(departure_date, arrival_date);
+    display(tof)
 
     % Evaluate constraints
     S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_departure, tof);
@@ -67,3 +68,22 @@ function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_depart
     S1_constraints = [c1, c2, c3];
 
 end
+
+
+% unit testing
+% m_SC = 1000;
+% r_p1 = 6671000;
+% V_SC_arrival = 40000;
+% 
+% start_date = datetime('2024-11-21', 'InputFormat', 'yyyy-MM-dd');
+% start_date = posixtime(start_date);
+% end_date = datetime('2025-03-31', 'InputFormat', 'yyyy-MM-dd');
+% end_date = posixtime(end_date);
+% 
+% departure_date = datetime(start_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+% arrival_date = datetime(end_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+% 
+% [delta_v_escape, V_SC_departure, S1_constraints] = ...
+%     S1_orbital_escape_test(m_SC, r_p1, V_SC_arrival, departure_date, arrival_date);
+% 
+% display([delta_v_escape, V_SC_departure, S1_constraints])

@@ -27,6 +27,15 @@ function initialize_globals()
         earth_orbital_data = readtable('earth_result_table.csv');
         mars_orbital_data = readtable('mars_result_table.csv'); 
 
+
+        % Convert the dates to datenums
+        earth_orbital_data.DepartureDate = datetime(earth_orbital_data.DepartureDate, 'InputFormat', 'yyyy-MM-dd');
+        earth_orbital_data.DateNum = datenum(earth_orbital_data.DepartureDate);
+        mars_orbital_data.ArrivalDate = datetime(mars_orbital_data.ArrivalDate, 'InputFormat', 'yyyy-MM-dd');
+        mars_orbital_data.DateNum = datenum(mars_orbital_data.ArrivalDate);
+
+
+
         % Display a confirmation message
         disp('Global variables and CSV data initialized successfully.');
     catch ME

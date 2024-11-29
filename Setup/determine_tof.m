@@ -22,6 +22,10 @@ function tof = determine_tof(departure_date, arrival_date)
         departure_date = fix(departure_date);
         arrival_date = fix(arrival_date);
         tof = arrival_date - departure_date;
+
+        if tof == 0
+            tof = 1;
+        end
     catch ME
         disp(departure_date)
         disp(arrival_date)

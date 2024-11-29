@@ -14,8 +14,8 @@ addpath(subsytems);
 
  global G M_Mars M_Sun earth_orbital_data mars_orbital_data;
 
-    departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
-    arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
+    arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
     departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);

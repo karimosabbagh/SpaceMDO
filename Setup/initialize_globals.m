@@ -18,9 +18,9 @@ function initialize_globals()
 
     % Planetary Transfer date ranges
     start_date = datetime('2024-11-21', 'InputFormat', 'yyyy-MM-dd');
-    start_date = posixtime(start_date);
+    start_date = datenum(start_date);
     end_date = datetime('2027-06-11', 'InputFormat', 'yyyy-MM-dd');
-    end_date = posixtime(end_date);
+    end_date = datenum(end_date);
     
     % Load data from CSV files
     try

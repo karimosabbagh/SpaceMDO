@@ -1,11 +1,11 @@
-function [m_prop,m_structure,m_payload,Isp,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date)
+function [m_structure,m_payload,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp)
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Setup');
     addpath(subsytems);
 
-    departure_date = datetime(departure_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
-    arrival_date = datetime(arrival_date, "ConvertFrom", "posixtime", "Format", 'yyyy-MM-dd');
+    departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
+    arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
 
     % define constants
     m_SC = 3000;           % kg, similar to Mars Recon Orbiter
@@ -29,13 +29,15 @@ function [m_prop,m_structure,m_payload,Isp,cost,S3_constraints] = S3_prop_struc_
     alpha = 100;  % radiation absorbed / kg of material (mSv/kg)
      
     % objective function
+    delta_v = delta_v_escape + delta_v_arrival; 
+    m_prop = m_SC*(1-exp(-1*delta_v/(9.81*Isp)));
     cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam;
     m_payload = m_SC - m_structure - m_prop;
 
     % constraints
 
     % Relation between masses and velocity total delta V
-    delta_v = delta_v_escape + delta_v_arrival; 
+    %delta_v = delta_v_escape + delta_v_arrival; 
     
     % calculate time of flight
     tof = determine_tof(departure_date, arrival_date);

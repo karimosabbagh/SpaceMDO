@@ -47,7 +47,9 @@ function [m_payload,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,del
     n_points = 1000;
     times = linspace(0, tof, n_points); % Number of times across the transfer period
 
+    
     M = 2 * pi * times / (2*tof); % Mean anomaly for each time
+    
 
     E = zeros(size(M));
     for i = 1:length(M)

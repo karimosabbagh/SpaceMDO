@@ -51,7 +51,7 @@ PB.var{23}   = {'m_payload'           3    false    []        1    lb           
 
 % PLANET COVERAGE
 %----------------------------------------------------------
-PB.var{24}   = {'r_p_p'               4    false    'r_p_e'        1    R_mars             170 * R_mars  };
+PB.var{24}   = {'r_p_p'               4    false    'r_p_c'        1    R_mars             170 * R_mars  };
 PB.var{25}   = {'e_p'                 4    false    []        1    lb                 1};
 PB.var{26}   = {'T_orbit'             4    false    []        1    1e3                10e3};  
 PB.var{27}   = {'eta_center'          4    false    []        1    lb                 deg2rad(45)};

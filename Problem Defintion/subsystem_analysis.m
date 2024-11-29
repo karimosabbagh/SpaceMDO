@@ -12,11 +12,12 @@ LAMBDA = PB.UserData.LAMBDA;
 obj = 0;
 y = [];
 c_ineq = [];
-
+% disp('subproblem index')
+% disp(subproblem_index)
 switch subproblem_index
     case 1
         % Subproblem 1 - ORBITAL ESCAPE
-        [r_p1, V_SC_arrival, departure_date, arrival_date] = get_variable(x_DV,PB, 'r_p_e', 'V_SC_arrival_e', 'departure_date_e', 'arrival_date_e');
+        [r_p1, V_SC_arrival, V_SC_departure, departure_date, arrival_date] = get_variable(x_DV,PB, 'r_p_e', 'V_SC_arrival_e', 'V_SC_departure_e', 'departure_date_e', 'arrival_date_e');
         [delta_v_escape, V_SC_departure, S1_constraints] = S1_orbital_escape(r_p1, V_SC_arrival, departure_date, arrival_date);
         obj = delta_v_escape;
         y = V_SC_departure;
@@ -32,16 +33,16 @@ switch subproblem_index
 
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS
-        [delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, m_prop] = get_variable(x_DV,PB,'delta_v_escape_e','delta_v_arrival_e','departure_date_s','arrival_date_s','Isp','m_structure_s','m_prop_s');
-        [m_payload,cost,S3_constraints] = propellant_structure_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, m_prop);
+        [delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, m_prop] = get_variable(x_DV,PB,'delta_v_escape_s','delta_v_capture_s','departure_date_s','arrival_date_s','Isp','m_structure_s','m_prop_s');
+        [m_payload,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, m_prop);
         obj = cost;
         c_ineq(1) = S3_constraints(1);
         c_ineq(2) = S3_constraints(2);
-        % y = [m_payload];
+        % y = [m_payload];--
 
      case 4
         % Subproblem 4 - PLANET COVERAGE
-        [r_p, e, T_orbit, eta_center, eta_FOV_tilde, IFOV] = get_variable(x_DV, PB, 'r_p3', 'e_4', 'T_orbit', 'eta_center', 'eta_FOV', 'IFOV');
+        [r_p, e, T_orbit, eta_center, eta_FOV_tilde, IFOV] = get_variable(x_DV, PB, 'r_p_p', 'e_p', 'T_orbit', 'eta_center', 'eta_FOV', 'IFOV');
         [percent_coverage, T_orbit, S4_constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV);
         obj = percent_coverage;
         % y = T_orbit;

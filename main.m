@@ -58,6 +58,6 @@ NoHi_options.solver_display = false;
 
 PB = problem_definition;
 output = NoHiSolver(PB,NoHi_options);
-output
+output;
 
 save output.mat output PB NoHi_options

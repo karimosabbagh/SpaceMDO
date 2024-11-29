@@ -28,11 +28,21 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
 
     % Extract Earth and Mars position and velocity for the exact departure and arrival dates
+    % disp('departure_date')
+    % disp(departure_date)
+    % disp('arrival_date')
+    % disp(arrival_date)
+
     departure_row = earth_orbital_data(earth_orbital_data.DepartureDate == departure_date, :);
     arrival_row = mars_orbital_data(mars_orbital_data.ArrivalDate == arrival_date, :);
 
-    if isempty(departure_row) | isempty(arrival_row)
-        disp('empty departure / arrival dates')
+    if isempty(departure_row)
+        disp(departure_date)
+        error('empty departure')
+    end
+    if isempty(arrival_row)
+        disp(arrival_date)
+        error('arrival dates')
     end
 
 

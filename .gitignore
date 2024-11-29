@@ -32,6 +32,10 @@ mex/
 *.mex*
 *.p
 
+!output.mat
+
+
+
 # Log files and debugging output
 *.log
 *.stackdump

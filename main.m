@@ -49,11 +49,11 @@ NoHi_options.gamma = 0.5;
 NoHi_options.w0 = 1;
 NoHi_options.x0 = [];
 NoHi_options.inc_stop = 1e-12;
-NoHi_options.tol = 1e-12;
+NoHi_options.tol = 1e-6;
 NoHi_options.nb_proc = 1;
 NoHi_options.save_subproblems = false;
-NoHi_options.solver = 'sqp'; % options are : 'mads','sqp','interior-point','active-set','trust-region-reflective'
-NoHi_options.solver_display = false;
+NoHi_options.solver = 'interior-point'; % options are : 'mads','sqp','interior-point','active-set','trust-region-reflective'
+NoHi_options.solver_display = true;
 
 
 PB = problem_definition;

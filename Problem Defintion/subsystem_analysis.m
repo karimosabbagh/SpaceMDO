@@ -12,8 +12,8 @@ LAMBDA = PB.UserData.LAMBDA;
 obj = 0;
 y = [];
 c_ineq = [];
-% disp('subproblem index')
-% disp(subproblem_index)
+%disp('subproblem index')
+%disp(subproblem_index)
 switch subproblem_index
     case 1
         % Subproblem 1 - ORBITAL ESCAPE
@@ -33,12 +33,11 @@ switch subproblem_index
 
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS
-        [delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, m_prop] = get_variable(x_DV,PB,'delta_v_escape_s','delta_v_capture_s','departure_date_s','arrival_date_s','Isp','m_structure_s','m_prop_s');
-        [m_payload,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, m_prop);
+        [delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure] = get_variable(x_DV,PB,'delta_v_escape_s','delta_v_capture_s','departure_date_s','arrival_date_s','Isp','m_structure_s');
+        [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure);
         obj = cost;
-        c_ineq(1) = S3_constraints(1);
-        c_ineq(2) = S3_constraints(2);
-        % y = [m_payload];--
+        c_ineq = S3_constraints;
+        y = m_prop_s;
 
      case 4
         % Subproblem 4 - PLANET COVERAGE

@@ -1,4 +1,4 @@
-function resultTable = format_results(output, PB, filename)
+function resultTable = format_results(output, PB) %, filename)
     % Function to create a result table from the output vector and PB struct
     
     % Get the variable names, lower bounds, and upper bounds from PB
@@ -54,5 +54,5 @@ function resultTable = format_results(output, PB, filename)
     % Display the table
     disp(resultTable);
 
-    save(filename, 'resultTable');
+    % save(filename, 'resultTable');
 end

@@ -33,11 +33,12 @@ switch subproblem_index
 
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS
-        [delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure] = get_variable(x_DV,PB,'delta_v_escape_s','delta_v_capture_s','departure_date_s','arrival_date_s','Isp','m_structure_s');
-        [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure);
+        [delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure,eta_FOV, IFOV] = get_variable(x_DV,PB,'delta_v_escape_s','delta_v_capture_s','departure_date_s','arrival_date_s','Isp','m_structure_s','eta_FOV_s','IFOV_s');
+        [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, eta_FOV, IFOV);
         obj = cost;
         c_ineq = S3_constraints;
-        y = m_prop_s;
+        y = [];
+       % y = m_prop_s;
 
      case 4
         % Subproblem 4 - PLANET COVERAGE

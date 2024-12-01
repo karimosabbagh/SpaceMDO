@@ -1,4 +1,4 @@
-function [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, eta_FOV, IFOV)
+function [cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, eta_FOV, IFOV)
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Setup');

@@ -24,15 +24,6 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
 
     global G M_Earth M_Sun earth_orbital_data mars_orbital_data;
 
-    % departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
-    % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
-
-    % Extract Earth and Mars position and velocity for the exact departure and arrival dates
-    % disp('departure_date')
-    % disp(departure_date)
-    % disp('arrival_date')
-    % disp(arrival_date)
-
     departure_date = fix(departure_date);
     arrival_date = fix(arrival_date);
 
@@ -89,16 +80,20 @@ function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_depart
 end
 
 %unit testing
-% m_SC = 1000;
+% m_SC = 3000;
 % r_p1 = 6671000;
-% V_SC_arrival = 40000;
+% V_SC_arrival = 10000;
+
+% m_SC = 3000;
+% r_p1 = 7.452112119995095e6;
+% V_SC_arrival = 1.982174831890449e+04;
 % 
 % start_date = datetime('2024-11-21', 'InputFormat', 'yyyy-MM-dd');
-% start_date = datenum(start_date) + 10;
+% start_date = 7.40164e5;
 % end_date = datetime('2025-03-31', 'InputFormat', 'yyyy-MM-dd');
-% end_date = datenum(end_date);
+% end_date = 740058;
 % 
 % [delta_v_escape, V_SC_departure, S1_constraints] = ...
-%     S1_orbital_escape_test(m_SC, r_p1, V_SC_arrival, start_date, end_date);
+%     S1_orbital_escape_test(r_p1, V_SC_arrival, start_date, end_date);
 % 
 % display([delta_v_escape, V_SC_departure, S1_constraints])

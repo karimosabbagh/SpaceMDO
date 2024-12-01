@@ -1,5 +1,5 @@
 % Subsystem function
-function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV)
+function [obj, constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV)
     % Planet Coverage Subsystem
     % Inputs:
     %   r_p          - Periapsis radius (m)

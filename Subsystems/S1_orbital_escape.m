@@ -63,7 +63,7 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     
     % calculate delta v
     delta_v_escape = sqrt(G * (M_Earth + m_SC) / (r_p1)) * ... 
-        sqrt(2 + ((V_infinity_D * sqrt(r_p1) / sqrt(G * (M_Earth + m_SC)))^2)-1);
+        (sqrt(2 + ((V_infinity_D * sqrt(r_p1) / sqrt(G * (M_Earth + m_SC)))^2))-1);
     
     % calculate time of flight
     tof = determine_tof(departure_date, arrival_date);

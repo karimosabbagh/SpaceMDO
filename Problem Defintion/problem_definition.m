@@ -50,7 +50,7 @@ PB.var{24}   = {'IFOV_s'              3    false    [30]      1    1e-3         
 
 % PLANET COVERAGE
 %----------------------------------------------------------
-PB.var{25}   = {'r_p_p'               4    false    'r_p_c'   1    R_mars             170 * R_mars  };
+PB.var{25}   = {'r_p_p'               4    false    'r_p_c'   1    R_mars + 100e3             170 * R_mars  };
 PB.var{26}   = {'e_p'                 4    false    'e_c'     1    lb                 0.9};
 PB.var{27}   = {'T_orbit'             4    false    []        1    1e3                10e3};  
 PB.var{28}   = {'eta_center'          4    false    []        1    lb                 deg2rad(45)};
@@ -63,7 +63,7 @@ PB.var{30}   = {'IFOV'                4    false    [24]        1    1e-3       
 PB.index_main = 3;
 % Function to call to perform the subsystem analysis:
 PB.analysis_file = 'subsystem_analysis';
-PB.end_of_iter_file = 'display';
+PB.end_of_iter_file = 'display_convergence';
 
 % %              Name                   SP    CV    links       dim   lb               ub
 % %

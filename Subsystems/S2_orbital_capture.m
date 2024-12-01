@@ -26,7 +26,7 @@ addpath(subsytems);
 
     R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
     R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
-    V_Mars_arrival = [arrival_row.Mars_Velocity_Magnitude] * 1000; % m/s
+    V_Mars_arrival = [arrival_row.Mars_Velocity_Magnitude] * 1000; % m/s 
     m_SC = 3000; %kg
 
     % spacecraft departure velocity

@@ -141,8 +141,15 @@ function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFO
     % Calculate slant range rho
     rho = R_mars * cos(gamma) + r_sat * cos(eta_max);
     
-    
     c2 = rho * 1e-3 * IFOV - Res_min;
+
+    if isnan(c1)
+        disp('c1 is NaN')
+    end
+
+    if isnan(c2)
+        disp('c2 is NaN')
+    end
 
     % Combine constraints
     constraints = [c1, c2];

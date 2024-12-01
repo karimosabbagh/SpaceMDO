@@ -34,7 +34,7 @@ addpath(subsytems);
         ((1 / R_Mars_arrival) - (1 / R_Earth_departure)));
     
     % hyperbolic escape velocity
-    V_infinity_A = V_SC_arrival - V_Mars_arrival;
+    V_infinity_A = V_Mars_arrival -  V_SC_arrival;
 
     delta_v_capture = sqrt(V_infinity_A ^ 2 + 2 * G * (M_Mars + (m_SC - delta_m_d)) / (r_p2)) + ... 
         sqrt(G * (M_Mars + (m_SC - delta_m_d)) * (1 + e) / (r_p2));

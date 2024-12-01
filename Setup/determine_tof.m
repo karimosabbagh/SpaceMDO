@@ -18,11 +18,19 @@ function tof = determine_tof(departure_date, arrival_date)
     % 
     % % Determine TOF
     % tof = jd2 - jd1;
-    departure_date = fix(departure_date);
-    arrival_date = fix(arrival_date);
-    tof = arrival_date - departure_date;
+    
+    try
+        departure_date = fix(departure_date);
+        arrival_date = fix(arrival_date);
+        tof = arrival_date - departure_date;
 
-    if tof == 0
-        tof = 1;
+        if tof == 0
+            tof = 1;
+        end
+    catch ME
+        disp(departure_date)
+        disp(arrival_date)
+        error('Error in TOF')
+
     end
 end

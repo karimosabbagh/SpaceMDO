@@ -42,17 +42,18 @@ function A_total = integrate_coverage(a, e, eta_center, eta_FOV_tilde)
     theta_max = 2 * pi;
 
     %% Perform numerical integration
-    A_total = integral(@(theta) instantaneous_coverage(a, e, theta, eta_center, eta_FOV_tilde), theta_min, theta_max);
-    % Perform numerical integration
-    %try
-    %    A_total = integral(@(theta) instantaneous_coverage(a, e, theta, eta_center, eta_FOV_tilde), theta_min, theta_max);
+    % A_total = integral(@(theta) instantaneous_coverage(a, e, theta, eta_center, eta_FOV_tilde), theta_min, theta_max);
+    % Number of points for numerical integration (higher = more accurate)
+    N_points = 500;
     
-    %catch ME
-    %    fprintf("Error in integrate_coverage:\n  Message: %s\n", ME.message);
-    %    A_total = NaN; % Return NaN to indicate failure
-    %end
-    % Divide by 2*pi for average per anomaly (optional)
+    % Discretize the range of theta
+    theta_values = linspace(theta_min, theta_max, N_points);
     
+    % Evaluate the integrand at each point
+    integrand_values = arrayfun(@(theta) instantaneous_coverage(a, e, theta, eta_center, eta_FOV_tilde), theta_values);
+
+    % Apply the trapezoidal rule for numerical integration
+    A_total = trapz(theta_values, integrand_values);
 
 end
 
@@ -140,7 +141,6 @@ function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFO
     % Calculate slant range rho
     rho = R_mars * cos(gamma) + r_sat * cos(eta_max);
     
- 
     c2 = rho * 1e-3 * IFOV - Res_min;
 
     if isnan(c1)

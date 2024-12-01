@@ -15,6 +15,7 @@ ub = inf;
 %
 % ORBITAL ESCAPE
 %----------------------------------------------------------
+
 PB.var{1}   = {'delta_v_escape_e'     1    true     [19]       1    lb                8e3};
 % PB.var{2}   = {'m_SC_e'             1    false    [9,18]     1    lb                ub};  
 PB.var{2}   = {'r_p_e'                1    false    []         1    R_earth + 160e3   R_earth + 2000e3}; 
@@ -56,6 +57,7 @@ PB.var{27}   = {'T_orbit'             4    false    []        1    1e3          
 PB.var{28}   = {'eta_center'          4    false    []        1    lb                 deg2rad(45)};
 PB.var{29}   = {'eta_FOV'             4    false    [23]        1    lb                 deg2rad(35)};
 PB.var{30}   = {'IFOV'                4    false    [24]        1    1e-3               10};
+
 
 
 % The objective function of sub-system index_main is considered as the 
@@ -110,6 +112,15 @@ PB.end_of_iter_file = 'display';
 % PB.var{27}   = {'eta_center'          4    false    []        1    lb                 deg2rad(45)};
 % PB.var{28}   = {'eta_FOV'             4    false    []        1    lb                 deg2rad(35)};
 % PB.var{29}   = {'IFOV'                4    false    []        1    1e-3               10};
+
+
+% The objective function of sub-system index_main is considered as the 
+% general objective function
+PB.index_main = 3;
+% Function to call to perform the subsystem analysis:
+PB.analysis_file = 'subsystem_analysis';
+PB.end_of_iter_file = 'display_convergence';
+
 
 
 % PLANET COVERAGE

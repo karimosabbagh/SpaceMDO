@@ -113,7 +113,7 @@ PB.var{29}   = {'IFOV'                4    false    []        1    1e-3         
 PB.index_main = 3;
 % Function to call to perform the subsystem analysis:
 PB.analysis_file = 'subsystem_analysis';
-PB.end_of_iter_file = 'display';
+PB.end_of_iter_file = 'display_convergence';
 
 
 % PLANET COVERAGE

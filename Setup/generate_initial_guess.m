@@ -1,4 +1,4 @@
-function [x, initial_guess] = generate_initial_guess(file_name)
+function [x, initial_guess] = generate_initial_guess()
     % This function generates a hardcoded initial guess for the problem definition (PB)
     % and saves it to a specified file. It also returns a 1x29 double array (x) 
     % containing the initial guesses.
@@ -10,7 +10,7 @@ function [x, initial_guess] = generate_initial_guess(file_name)
     % - x: A 1x29 double array containing the initial guesses for each variable
     % - initial_guess: A structure containing the named initial guesses (saved to file)
 
-    global R_earth R_mars start_date end_date;
+    global R_earth R_mars start_date
 
     % Initialize the structure for storing the initial guess
     initial_guess = struct();
@@ -24,7 +24,7 @@ function [x, initial_guess] = generate_initial_guess(file_name)
     initial_guess.V_SC_arrival_e = 30e3;    % Example: value between 0 and 80e3
     
     initial_guess.delta_v_capture_c = 25e3;  % Example: mid-value for delta_v_capture_c
-    initial_guess.m_prop_c = 500;            % Example: some value for propellant mass
+    initial_guess.m_prop_c = 1000;            % Example: some value for propellant mass
     initial_guess.r_p_c = R_mars + 500e3;    % Example: value between R_mars + 100e3 and 170 * R_mars
     initial_guess.e_c = 0.1;                 % Example: eccentricity value
     initial_guess.departure_date_c = start_date + 60; % Example: departure date for capture
@@ -33,14 +33,15 @@ function [x, initial_guess] = generate_initial_guess(file_name)
     initial_guess.V_SC_arrival_c = 35e3;    % Example: speed value for arrival
 
     initial_guess.cost = 5e6;                % Example cost value
-    initial_guess.m_prop_s = 800;            % Example propellant mass for spacecraft
-    initial_guess.m_structure_s = 1500;      % Example structure mass
-    initial_guess.Isp = 350;                 % Example ISP value
+    initial_guess.m_prop_s = 1000;            % Example propellant mass for spacecraft
+    initial_guess.m_structure_s = 1300;      % Example structure mass
+    initial_guess.Isp = 300;                 % Example ISP value
     initial_guess.delta_v_escape_s = 35e3;   % Example delta_v for spacecraft escape
     initial_guess.delta_v_capture_s = 30e3;  % Example delta_v for spacecraft capture
     initial_guess.departure_date_s = start_date + 40; % Example: spacecraft departure date
     initial_guess.arrival_date_s = start_date + 100;  % Example: spacecraft arrival date
-
+    initial_guess.m_payload = 700;           % Example: mass of payload
+    
     initial_guess.r_p_p = R_mars + 600e3;    % Example: planet coverage variable
     initial_guess.e_p = 0.1;                % Example: eccentricity for planet coverage
     initial_guess.T_orbit = 7000;            % Example: orbital period in seconds
@@ -52,13 +53,12 @@ function [x, initial_guess] = generate_initial_guess(file_name)
     x = [
         initial_guess.delta_v_escape_e, initial_guess.r_p_e, initial_guess.departure_date_e, initial_guess.arrival_date_e, initial_guess.V_SC_departure_e, initial_guess.V_SC_arrival_e, ...
         initial_guess.delta_v_capture_c, initial_guess.m_prop_c, initial_guess.r_p_c, initial_guess.e_c, initial_guess.departure_date_c, initial_guess.arrival_date_c, initial_guess.V_SC_departure_c, initial_guess.V_SC_arrival_c, ...
-        initial_guess.cost, initial_guess.m_prop_s, initial_guess.m_structure_s, initial_guess.Isp, initial_guess.delta_v_escape_s, initial_guess.delta_v_capture_s, initial_guess.departure_date_s, initial_guess.arrival_date_s, ...
+        initial_guess.cost, initial_guess.m_prop_s, initial_guess.m_structure_s, initial_guess.Isp, initial_guess.delta_v_escape_s, initial_guess.delta_v_capture_s, initial_guess.departure_date_s, initial_guess.arrival_date_s, initial_guess.m_payload ...
         initial_guess.r_p_p, initial_guess.e_p, initial_guess.T_orbit, initial_guess.eta_center, initial_guess.eta_FOV, initial_guess.IFOV
     ];
 
-    % Save the initial guess structure to the specified file
-    save(file_name, 'initial_guess');
+    
 
     % Display a message to indicate the initial guess has been saved
-    disp(['Initial guess has been saved to ', file_name]);
+    disp('Initial guess has been saved')
 end

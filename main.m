@@ -35,6 +35,21 @@ addpath 'Problem Defintion'/
 % Initialize variables
 %global G M R_earth R_mars earth_orbital_data mars_result_data;
 initialize_globals();
+[x, initial_guess] = generate_initial_guess();
+
+% Create a timestamped folder path under 'Experiments'
+timestamp = datestr(now, 'yyyy-mm-dd_HH-MM-SS');  % Correct timestamp format
+folder_path = fullfile('Experiments', timestamp);  % Create path under 'Experiments'
+
+% Create the folder if it doesn't exist
+if ~exist(folder_path, 'dir')
+    mkdir(folder_path);
+end
+
+% Save the initial guess structure to the specified folder 
+IG_filename = 'initial_guess.mat'; % Add file extension to save as .mat
+save(fullfile(folder_path, IG_filename), 'initial_guess');
+
 
 % NiHiMDO Parameters
 NoHi_options.display = true;
@@ -47,7 +62,7 @@ NoHi_options.NO = 200;
 NoHi_options.beta = 1.3;
 NoHi_options.gamma = 0.5;
 NoHi_options.w0 = 1;
-NoHi_options.x0 = [];
+NoHi_options.x0 = x;
 NoHi_options.inc_stop = 1e-12;
 NoHi_options.tol = 1e-12;
 NoHi_options.nb_proc = 1;
@@ -60,4 +75,6 @@ PB = problem_definition;
 output = NoHiSolver(PB,NoHi_options);
 output;
 
-save output.mat output PB NoHi_options
+% save output.mat output PB NoHi_options
+Save to appropriate timestamp folder
+save(fullfile(folder_path, 'output.mat'), 'output', 'PB', 'NoHi_options');

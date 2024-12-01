@@ -25,23 +25,23 @@ function resultTable = format_results(output, PB, filename)
     % Create a copy of the results to adjust for date and FOV conversion
     resultsAdjusted = output.x(:); % Start with a copy of the original results
     
-    for i = 1:numVars
-        % Check if the variable name contains 'date' (for date conversion)
-        if contains(varNames{i}, 'date', 'IgnoreCase', true)
-            % Convert from datenum to datetime
-            resultsAdjusted(i) = datetime(fix(resultsAdjusted(i)), 'ConvertFrom', 'datenum');
-            lowerBounds(i) = datetime(lowerBounds(i), 'ConvertFrom', 'datenum'); % Convert lower bound to a date
-            upperBounds(i) = datetime(upperBounds(i), 'ConvertFrom', 'datenum'); % Convert upper bound to a date
-        end
-        
-        % Check if the variable name contains 'FOV' (for FOV conversion)
-        if contains(varNames{i}, 'FOV', 'IgnoreCase', true)
-            % Convert from radians to degrees
-            resultsAdjusted(i) = rad2deg(resultsAdjusted(i));
-            lowerBounds(i) = rad2deg(lowerBounds(i)); % Convert lower bound from radians to degrees
-            upperBounds(i) = rad2deg(upperBounds(i)); % Convert upper bound from radians to degrees
-        end
-    end
+    % for i = 1:numVars
+    %     % Check if the variable name contains 'date' (for date conversion)
+    %     if contains(varNames{i}, 'date', 'IgnoreCase', true)
+    %         % Convert from datenum to datetime
+    %         resultsAdjusted(i) = datetime(fix(resultsAdjusted(i)), 'ConvertFrom', 'datenum');
+    %         lowerBounds(i) = datetime(lowerBounds(i), 'ConvertFrom', 'datenum'); % Convert lower bound to a date
+    %         upperBounds(i) = datetime(upperBounds(i), 'ConvertFrom', 'datenum'); % Convert upper bound to a date
+    %     end
+    % 
+    %     % Check if the variable name contains 'FOV' (for FOV conversion)
+    %     if contains(varNames{i}, 'FOV', 'IgnoreCase', true)
+    %         % Convert from radians to degrees
+    %         resultsAdjusted(i) = rad2deg(resultsAdjusted(i));
+    %         lowerBounds(i) = rad2deg(lowerBounds(i)); % Convert lower bound from radians to degrees
+    %         upperBounds(i) = rad2deg(upperBounds(i)); % Convert upper bound from radians to degrees
+    %     end
+    % end
 
     % Create the table
     resultTable = table(varNames, resultsAdjusted(:), lowerBounds, upperBounds, isActive, ...

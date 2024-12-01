@@ -30,13 +30,8 @@ close all
 clear all
 addpath NoHIMDO_solver
 addpath Setup\
-addpath 'Problem Defintion'/
+addpath Problem_Definition
 addpath Analysis\
-
-% Initialize variables
-%global G M R_earth R_mars earth_orbital_data mars_result_data;
-initialize_globals();
-[x, initial_guess] = generate_initial_guess();
 
 % Create a timestamped folder path under 'Experiments'
 timestamp = datestr(now, 'yyyy-mm-dd_HH-MM-SS');  % Correct timestamp format
@@ -46,6 +41,12 @@ folder_path = fullfile('Experiments', timestamp);  % Create path under 'Experime
 if ~exist(folder_path, 'dir')
     mkdir(folder_path);
 end
+
+% Initialize variables
+%global G M R_earth R_mars earth_orbital_data mars_result_data;
+x = [];
+initialize_globals();
+[x, initial_guess] = generate_initial_guess();
 
 % Save the initial guess structure to the specified folder 
 IG_filename = 'initial_guess.mat'; % Add file extension to save as .mat
@@ -68,7 +69,7 @@ NoHi_options.inc_stop = 1e-12;
 NoHi_options.tol = 1e-6;
 NoHi_options.nb_proc = 1;
 NoHi_options.save_subproblems = false;
-NoHi_options.solver = 'interior-point'; % options are : 'mads','sqp','interior-point','active-set','trust-region-reflective'
+NoHi_options.solver = 'sqp'; % options are : 'mads','sqp','interior-point','active-set','trust-region-reflective'
 NoHi_options.solver_display = true;
 
 % Conditional parallel pool initialization

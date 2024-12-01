@@ -40,7 +40,8 @@ function [x, initial_guess] = generate_initial_guess()
     initial_guess.delta_v_capture_s = 30e3;  % Example delta_v for spacecraft capture
     initial_guess.departure_date_s = start_date + 40; % Example: spacecraft departure date
     initial_guess.arrival_date_s = start_date + 100;  % Example: spacecraft arrival date
-    initial_guess.m_payload = 700;           % Example: mass of payload
+    initial_guess.eta_FOV_s = deg2rad(15);           % Example: field-of-view angle for coverage
+    initial_guess.IFOV_s = 0.1;                % Example: Instantaneous Field of View
     
     initial_guess.r_p_p = R_mars + 600e3;    % Example: planet coverage variable
     initial_guess.e_p = 0.1;                % Example: eccentricity for planet coverage
@@ -49,11 +50,11 @@ function [x, initial_guess] = generate_initial_guess()
     initial_guess.eta_FOV = deg2rad(15);     % Example: field-of-view angle for coverage
     initial_guess.IFOV = 0.1;                  % Example: Instantaneous Field of View
 
-    % Generate the 1x29 vector (x) based on the hardcoded initial guesses
+    % Generate the 1x30 vector (x) based on the hardcoded initial guesses
     x = [
         initial_guess.delta_v_escape_e, initial_guess.r_p_e, initial_guess.departure_date_e, initial_guess.arrival_date_e, initial_guess.V_SC_departure_e, initial_guess.V_SC_arrival_e, ...
         initial_guess.delta_v_capture_c, initial_guess.m_prop_c, initial_guess.r_p_c, initial_guess.e_c, initial_guess.departure_date_c, initial_guess.arrival_date_c, initial_guess.V_SC_departure_c, initial_guess.V_SC_arrival_c, ...
-        initial_guess.cost, initial_guess.m_prop_s, initial_guess.m_structure_s, initial_guess.Isp, initial_guess.delta_v_escape_s, initial_guess.delta_v_capture_s, initial_guess.departure_date_s, initial_guess.arrival_date_s, initial_guess.m_payload ...
+        initial_guess.cost, initial_guess.m_prop_s, initial_guess.m_structure_s, initial_guess.Isp, initial_guess.delta_v_escape_s, initial_guess.delta_v_capture_s, initial_guess.departure_date_s, initial_guess.arrival_date_s, initial_guess.eta_FOV_s, initial_guess.IFOV_s ...
         initial_guess.r_p_p, initial_guess.e_p, initial_guess.T_orbit, initial_guess.eta_center, initial_guess.eta_FOV, initial_guess.IFOV
     ];
 

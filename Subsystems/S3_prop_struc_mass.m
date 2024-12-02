@@ -17,25 +17,25 @@ function [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delt
     n = 0.75;                    % 
     c_isp = 10;                  % $/s
     lam = 1.1;                  % 
-    c_FOV = 50;                %
-    phi = 2;
+    %c_FOV = 50;                %
+   % phi = 2;
     
     % constraint constants
-    m_minshield = 100; % minimum shield mass required for all missions
+    m_minshield = 50; % minimum shield mass required for all missions
     beta = 0.5; 
     D_avg = 657;                  % Radiation dose at 1 AU (mSv/year), local parameter
-    alpha = 100;  % radiation absorbed / kg of material (mSv/kg)
+    alpha = 150;  % radiation absorbed / kg of material (mSv/kg)
     d_Earth = 1;                  % Earth's orbital radius (AU)
     d_Mars = 1.52;                % Mars' orbital radius (AU)
     a = (d_Earth + d_Mars) / 2;   % Semi-major axis (AU)
     e = (d_Mars - d_Earth) / (d_Mars + d_Earth); % Eccentricity
-    m_payload_min = 500; % kg
+    m_payload_min = 50; % kg
      
     % objective function
     delta_v = delta_v_escape + delta_v_arrival; 
     m_prop_s = m_SC*(1-exp(-1*delta_v/(g*Isp)));
 
-    cost = c_prop*(m_prop_s)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam + c_FOV*(eta_FOV / IFOV)^phi;
+    cost = c_prop*(m_prop_s)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam;  % + c_FOV*(eta_FOV / IFOV)^phi;
    
     % constraints
 
@@ -51,7 +51,7 @@ function [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delt
     g1 = m_payload_min - m_payload;                               % m_payload >= m_payload_min
 
     % g2: Radiation shielding from structural mass
-    
+   
     n_points = 1000;
     times = linspace(0, tof, n_points); % Number of times across the transfer period
 

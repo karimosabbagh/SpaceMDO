@@ -17,7 +17,7 @@ c_ineq = [];
 switch subproblem_index
     case 1
         % Subproblem 1 - ORBITAL ESCAPE
-        [r_p1, V_SC_arrival, V_SC_departure, departure_date, arrival_date] = get_variable(x_DV,PB, 'r_p_e', 'V_SC_arrival_e', 'V_SC_departure_e', 'departure_date_e', 'arrival_date_e');
+        [r_p1, V_SC_arrival, V_SC_departure, departure_date, arrival_date, delta_v_escape] = get_variable(x_DV,PB, 'r_p_e', 'V_SC_arrival_e', 'V_SC_departure_e', 'departure_date_e', 'arrival_date_e','delta_v_escape_e');
         [delta_v_escape, V_SC_departure, S1_constraints] = S1_orbital_escape(r_p1, V_SC_arrival, departure_date, arrival_date);
         obj = delta_v_escape;
         y = V_SC_departure;
@@ -25,7 +25,7 @@ switch subproblem_index
 
     case 2
         % Subproblem 2 - ORBITAL CAPTURE
-        [r_p2, V_SC_departure, departure_date, arrival_date, e,delta_m_d] = get_variable(x_DV,PB, 'r_p_c', 'V_SC_departure_c', 'departure_date_c', 'arrival_date_c', 'e_c','m_prop_c');            
+        [r_p2, V_SC_departure, departure_date, arrival_date, e,delta_m_d, delta_v_capture] = get_variable(x_DV,PB, 'r_p_c', 'V_SC_departure_c', 'departure_date_c', 'arrival_date_c', 'e_c','m_prop_c','delta_v_capture_c');            
         [delta_v_capture, V_SC_arrival, S2_constraints] = S2_orbital_capture(e, delta_m_d, r_p2, V_SC_departure, departure_date, arrival_date);
         obj = delta_v_capture;
         c_ineq = S2_constraints;
@@ -33,8 +33,8 @@ switch subproblem_index
 
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS
-        [delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure,eta_FOV, IFOV] = get_variable(x_DV,PB,'delta_v_escape_s','delta_v_capture_s','departure_date_s','arrival_date_s','Isp','m_structure_s','eta_FOV_s','IFOV_s');
-        [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, eta_FOV, IFOV);
+        [delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, eta_FOV, IFOV] = get_variable(x_DV,PB,'delta_v_escape_s','delta_v_capture_s','departure_date_s','arrival_date_s','Isp','m_structure_s','eta_FOV_s','IFOV_s');
+        [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure,eta_FOV, IFOV);
         obj = cost;
         c_ineq = S3_constraints;
         y = [];

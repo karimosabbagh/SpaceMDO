@@ -62,8 +62,8 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     V_infinity_D = V_SC_departure - V_Earth_departure;
     
     % calculate delta v
-    delta_v_escape = sqrt(G * (M_Earth + m_SC) / (r_p1)) * ... 
-        sqrt(2 + ((V_infinity_D * sqrt(r_p1) / sqrt(G * (M_Earth + m_SC)))^2)-1);
+    delta_v_escape = (sqrt(G * (M_Earth + m_SC) / (r_p1))) * ... 
+        (sqrt(2 + ((V_infinity_D * sqrt(r_p1) / sqrt(G * (M_Earth + m_SC)))^2))-1);
     
     % calculate time of flight
     tof = determine_tof(departure_date, arrival_date);
@@ -80,7 +80,7 @@ function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_depart
     c1 = V_Earth_departure - V_SC_departure;   
 
    % g2: Time of flight
-    c2 = 128 - tof;
+    c2 = 100 - tof;
     c3 = tof - 500;
               
     % Combine constraints
@@ -93,12 +93,7 @@ end
 % r_p1 = 6671000;
 % V_SC_arrival = 40000;
 % 
-% start_date = datetime('2024-11-21', 'InputFormat', 'yyyy-MM-dd');
-% start_date = datenum(start_date) + 10;
-% end_date = datetime('2025-03-31', 'InputFormat', 'yyyy-MM-dd');
-% end_date = datenum(end_date);
-% 
 % [delta_v_escape, V_SC_departure, S1_constraints] = ...
-%     S1_orbital_escape_test(m_SC, r_p1, V_SC_arrival, start_date, end_date);
+%     S1_orbital_escape(r_p1, V_SC_arrival, departure_date, arrival_date, delta_v_escape);
 % 
 % display([delta_v_escape, V_SC_departure, S1_constraints])

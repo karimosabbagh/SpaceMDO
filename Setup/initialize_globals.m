@@ -14,7 +14,7 @@ function initialize_globals()
 
 
     % Planet Coverage Specific constant
-    Res_min = 30; % m
+    Res_min = 20; % m
 
     % Planetary Transfer date ranges
     start_date = datetime('2024-11-21', 'InputFormat', 'yyyy-MM-dd');

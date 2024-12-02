@@ -1,4 +1,4 @@
-function resultTable = format_results(output, PB) %, filename)
+function [resultTable] = format_results(output, PB) %, filename)
 
     % Function to create a result table from the output vector and PB struct
     

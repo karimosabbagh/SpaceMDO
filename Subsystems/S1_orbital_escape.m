@@ -1,5 +1,5 @@
-function [delta_v_escape, V_SC_departure, S1_constraints] = ...
-    S1_orbital_escape(r_p1, V_SC_arrival, departure_date, arrival_date)
+function [delta_v_escape, V_SC_departure, V_infinity_D] = ...
+    S1_orbital_escape(r_p1, V_SC_arrival)
     %
     % Determine the delta_v to escape Earth's gravitational sphere of influence and 
     % velocity of spacecraft at departure
@@ -22,37 +22,14 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     addpath(setup);
     
 
-    global G M_Earth M_Sun earth_orbital_data mars_orbital_data;
-
-    % departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
-    % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
-
-    % Extract Earth and Mars position and velocity for the exact departure and arrival dates
-    % disp('departure_date')
-    % disp(departure_date)
-    % disp('arrival_date')
-    % disp(arrival_date)
-
-    departure_date = fix(departure_date);
-    arrival_date = fix(arrival_date);
+    global G M_Earth M_Sun earth_orbital_data m_SC mars_orbital_data departure_date arrival_date;
 
     departure_row = earth_orbital_data(earth_orbital_data.DateNum == departure_date, :);
     arrival_row = mars_orbital_data(mars_orbital_data.DateNum == arrival_date, :);
 
-    if isempty(departure_row)
-        disp(departure_date)
-        error('empty departure')
-    end
-    if isempty(arrival_row)
-        disp(arrival_date)
-        error('arrival dates')
-    end
-
-
     R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
     V_Earth_departure = [departure_row.Earth_Velocity_Magnitude] * 1000; % m/s
     R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
-    m_SC = 3000; %kg
 
     % spacecraft departure velocity
     V_SC_departure = sqrt(V_SC_arrival^2 + 2 * G * (M_Sun + m_SC) * ...
@@ -64,29 +41,9 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     % calculate delta v
     delta_v_escape = (sqrt(G * (M_Earth + m_SC) / (r_p1))) * ... 
         (sqrt(2 + ((V_infinity_D * sqrt(r_p1) / sqrt(G * (M_Earth + m_SC)))^2))-1);
-    
-    % calculate time of flight
-    tof = determine_tof(departure_date, arrival_date);
-
-    % Evaluate constraints
-    S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_departure, tof);
 
 end
 
-
-function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_departure, tof)
-
-   % g1: Hyperbolic excess velocity constraint (V_D^(v) - V_Earth > 0)
-    c1 = V_Earth_departure - V_SC_departure;   
-
-   % g2: Time of flight
-    c2 = 100 - tof;
-    c3 = tof - 500;
-              
-    % Combine constraints
-    S1_constraints = [c1, c2, c3];
-
-end
 
 %unit testing
 % m_SC = 1000;

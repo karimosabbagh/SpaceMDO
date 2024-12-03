@@ -29,8 +29,8 @@ clc
 close all
 clear all
 addpath NoHIMDO_solver
-addpath Setup\
-addpath 'Problem Defintion'/
+addpath Setup
+addpath 'Problem Defintion'
 
 % Initialize variables
 %global G M R_earth R_mars earth_orbital_data mars_result_data;
@@ -43,7 +43,7 @@ NoHi_options.constraints_cv = true;
 NoHi_options.realistic_obj = false;
 NoHi_options.noprogress_stop = 100;
 NoHi_options.NI = 1000;
-NoHi_options.NO = 100;
+NoHi_options.NO = 200;
 NoHi_options.beta = 1.3;
 NoHi_options.gamma = 0.5;
 NoHi_options.w0 = 1;
@@ -52,7 +52,7 @@ NoHi_options.inc_stop = 1e-12;
 NoHi_options.tol = 1e-6;
 NoHi_options.nb_proc = 1;
 NoHi_options.save_subproblems = false;
-NoHi_options.solver = 'interior-point'; % options are : 'mads','sqp','interior-point','active-set','trust-region-reflective'
+NoHi_options.solver = 'sqp'; % options are : 'mads','sqp','interior-point','active-set','trust-region-reflective'
 NoHi_options.solver_display = true;
 
 

@@ -1,4 +1,4 @@
-function Basic_display(PB,x,v,w,obj)
+function display_convergence(PB,x,v,w,obj)
 
 q = get_q(PB,x);
 q2 = q./PB.q_scale;

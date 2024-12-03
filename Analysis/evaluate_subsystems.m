@@ -26,7 +26,7 @@ function [results, evaluations] =  evaluate_subsystems(x, PB)
     
     % Subsystem 3
     [evaluations.m_prop_s, evaluations.cost, evaluations.S3_constraints] = ...
-        S3_prop_struc_mass(results.delta_v_escape_s, results.delta_v_capture_s, results.departure_date_s, results.arrival_date_s, results.Isp, results.m_structure_s);
+        S3_prop_struc_mass(results.delta_v_escape_s, results.delta_v_capture_s,  results.Isp, results.m_structure_s);
 
     % Subsystem 4
     [evaluations.percent_coverage, evaluations.T_orbit, evaluations.S4_constraints] = ...

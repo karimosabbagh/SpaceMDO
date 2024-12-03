@@ -1,5 +1,5 @@
 % Subsystem function
-function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV)
+function [obj, S4_constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV)
     % Planet Coverage Subsystem
     % Inputs:
     %   r_p          - Periapsis radius (m)
@@ -15,14 +15,11 @@ function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, et
     % Declare global variables
     global R_mars G M_Mars;
 
-    % Subsystem Specific Parameters
-    global Res_min;
-
     % Calculate semi-major axis (a)
     a = r_p / (1 - e);
 
     % Calculate orbital period
-    T_orbit = 2 * pi * sqrt(a^3 / (G * M_Mars));
+    %T_orbit = 2 * pi * sqrt(a^3 / (G * M_Mars));
 
     % Calculate total surface area of Mars  (assuming perfect sphere)
     A_mars = 4 * pi * R_mars ^2;
@@ -30,28 +27,16 @@ function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, et
     obj = -integrate_coverage(a, e, eta_center, eta_FOV_tilde) / A_mars;
 
     % Evaluate non-linear constraints
-    constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFOV);
+    S4_constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFOV);
 end
 
 function A_total = integrate_coverage(a, e, eta_center, eta_FOV_tilde)
-    % Integrate coverage over the elliptical orbit
-    global R_mars;
-
     % True anomaly range (0 to 2*pi)
     theta_min = 0;
     theta_max = 2 * pi;
 
     %% Perform numerical integration
     A_total = integral(@(theta) instantaneous_coverage(a, e, theta, eta_center, eta_FOV_tilde), theta_min, theta_max);
-    % Perform numerical integration
-    %try
-    %    A_total = integral(@(theta) instantaneous_coverage(a, e, theta, eta_center, eta_FOV_tilde), theta_min, theta_max);
-    
-    %catch ME
-    %    fprintf("Error in integrate_coverage:\n  Message: %s\n", ME.message);
-    %    A_total = NaN; % Return NaN to indicate failure
-    %end
-    % Divide by 2*pi for average per anomaly (optional)
     
 
 end
@@ -114,7 +99,7 @@ function Lambda = ground_range_angle(eta, R_planet, r_sat)
 end
 
 
-function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFOV)
+function S4_constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFOV)
     % Evaluate the non-linear constraints
     global R_mars Res_min;
 
@@ -152,6 +137,6 @@ function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFO
     end
 
     % Combine constraints
-    constraints = [c1, c2];
+    S4_constraints = [c1, c2];
 end
 

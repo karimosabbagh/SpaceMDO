@@ -5,14 +5,14 @@ function initialize_globals()
     global G M_Earth M_Mars M_Sun R_earth R_mars Res_min m_SC earth_orbital_data mars_orbital_data departure_date arrival_date;
     
     % Define global constants
-    G = 6.67430e-11;      % Gravitational constant (m^3/kg/s^2)
+    G = 6.67430e-11 / 10^9;      % Gravitational constant (m^3/kg/s^2)
     M_Earth = 5.972e24;   % Mass of Earth (kg)
     M_Mars = 0.6417e24;   % Mass of Mars (kg)
     M_Sun = 1.989e30;     % Mass of Sun (kg)
-    R_earth = 6371e3;     % Radius of Earth (m)
-    R_mars = 3389.5e3;    % Radius of Mars (m)
+    R_earth = 6371;     % Radius of Earth (km)
+    R_mars = 3389.5;    % Radius of Mars (km)
     m_SC = 10000;
-    Res_min = 20; % m
+    Res_min = 20/1000; % km
 
     % Planetary Transfer date ranges
     start_date = datetime('2024-11-21', 'InputFormat', 'yyyy-MM-dd');

@@ -27,9 +27,9 @@ function [delta_v_escape, V_SC_departure, V_infinity_D] = ...
     departure_row = earth_orbital_data(earth_orbital_data.DateNum == departure_date, :);
     arrival_row = mars_orbital_data(mars_orbital_data.DateNum == arrival_date, :);
 
-    R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
-    V_Earth_departure = [departure_row.Earth_Velocity_Magnitude] * 1000; % m/s
-    R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
+    R_Earth_departure = [departure_row.Earth_Position_Magnitude]; % km
+    V_Earth_departure = [departure_row.Earth_Velocity_Magnitude]; % km/s
+    R_Mars_arrival = [arrival_row.Mars_Position_Magnitude]; % km
 
     % spacecraft departure velocity
     V_SC_departure = sqrt(V_SC_arrival^2 + 2 * G * (M_Sun + m_SC) * ...

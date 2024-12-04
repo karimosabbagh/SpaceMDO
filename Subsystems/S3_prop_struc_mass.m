@@ -7,7 +7,7 @@ function [m_prop, cost, shield] = S3_prop_struc_mass(delta_v_escape,delta_v_arri
     global m_SC;
 
     % define constants
-    g = 9.81;                   % m/s^2
+    g = 9.81/1000;              % km/s^2
     c_prop = 50;                % $/kg
     gamma = 0.8;                % 
     c_struct = 70;              % $/kg

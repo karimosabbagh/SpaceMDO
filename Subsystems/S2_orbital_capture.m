@@ -18,9 +18,9 @@ addpath(subsytems);
  departure_row = earth_orbital_data(earth_orbital_data.DateNum == departure_date, :);
  arrival_row = mars_orbital_data(mars_orbital_data.DateNum == arrival_date, :);
 
- R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
- R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
- V_Mars_arrival = [arrival_row.Mars_Velocity_Magnitude] * 1000; % m/s
+ R_Earth_departure = [departure_row.Earth_Position_Magnitude]; % km
+ R_Mars_arrival = [arrival_row.Mars_Position_Magnitude]; % km
+ V_Mars_arrival = [arrival_row.Mars_Velocity_Magnitude]; % km/s
 
  % spacecraft departure velocity
  V_SC_arrival = sqrt(V_SC_departure^2 + 2 * G * (M_Sun + (m_SC - m_prop)) * ...

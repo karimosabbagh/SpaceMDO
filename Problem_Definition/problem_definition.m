@@ -34,7 +34,7 @@ PB.var{9} =   {'V_SC_arrival_c'       2    true     'V_SC_arrival_e'         1  
 
 % SPACECRAFT & PROPELLANT MASS
 %----------------------------------------------------------
-PB.var{10}   = {'m_prop_s'            3    false     []                       1    lb                50000}; 
+PB.var{10}   = {'m_prop_s'            3    false    []                      1    lb                50000}; 
 PB.var{11}   = {'m_SC'                3    false    []                       1    lb                50000};
 PB.var{12}   = {'Isp'                 3    false    []                       1    150               600}; 
 PB.var{13}   = {'delta_v_escape_s'    3    false    'delta_v_escape_e'       1    lb                80};
@@ -42,7 +42,7 @@ PB.var{14}   = {'delta_v_capture_s'   3    false    'delta_v_capture_c'      1  
 %PB.var{20}   = {'departure_date_s'    3    false    [3,11]    1    start_date         (end_date - 100)};
 %PB.var{21}   = {'arrival_date_s'      3    false    [4,12]    1    (start_date + 100)         end_date};
 PB.var{15}   = {'eta_FOV_s'           3    false    'eta_FOV_p'              1    lb                deg2rad(35)};
-PB.var{16}   = {'IFOV_s'              3    false     []                 1    1              10e4};
+PB.var{16}   = {'IFOV_s'              3    false     []                      1    1              10e4};
 
 
 % PLANET COVERAGE

@@ -16,7 +16,7 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     c_prop = 50;                % $/kg
     gamma = 0.8;                % 
     c_struct = 70;              % $/kg
-    n = 0.75;                    % 
+    n = 1.1;                    % 
     c_isp = 10;                  % $/s
     lam = 1.1;                  % 
     c_FOV = 50;                %
@@ -36,8 +36,8 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     % objective function
     delta_v = delta_v_escape + delta_v_arrival; 
     m_prop = m_SC*(1-exp(-1*delta_v/(g*Isp)));
-    m_structure = m_SC - m_prop - m_payload;
-
+    m_structure = m_SC - m_prop;
+    disp(m_structure);
     cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam + c_FOV*(eta_FOV / IFOV)^phi;
    
     % constraints

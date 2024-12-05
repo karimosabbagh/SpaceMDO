@@ -1,10 +1,10 @@
-function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta_v_arrival, departure_date, arrival_date, Isp, m_structure, eta_FOV, IFOV)
+function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta_v_arrival, departure_date, arrival_date, Isp, m_SC, eta_FOV, IFOV)
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Setup');
     addpath(subsytems);
 
-    global m_SC;
+    % global m_SC;
 
     % departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
     % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
@@ -16,7 +16,7 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     c_prop = 50;                % $/kg
     gamma = 0.8;                % 
     c_struct = 70;              % $/kg
-    n = 0.75;                    % 
+    n = 1.1;                    % 
     c_isp = 10;                  % $/s
     lam = 1.1;                  % 
     c_FOV = 50;                %
@@ -31,27 +31,21 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     d_Mars = 1.52;                % Mars' orbital radius (AU)
     a = (d_Earth + d_Mars) / 2;   % Semi-major axis (AU)
     e = (d_Mars - d_Earth) / (d_Mars + d_Earth); % Eccentricity
-    m_payload_min = 500; % kg
+    m_payload = 500; % kg
      
     % objective function
     delta_v = delta_v_escape + delta_v_arrival; 
     m_prop = m_SC*(1-exp(-1*delta_v/(g*Isp)));
-
+    m_structure = m_SC - m_prop;
+    disp(m_structure);
     cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam + c_FOV*(eta_FOV / IFOV)^phi;
    
     % constraints
-
-    % Relation between masses and velocity total delta V
-    % delta_v = delta_v_escape + delta_v_arrival; 
     
     % calculate time of flight
     tof = determine_tof(departure_date, arrival_date);
     
-    % g1: Minimum propellant mass required (switch for minimum payload mass)
-    % g1 = m_SC*(1-exp(-1*delta_v/(g*Isp)))- m_prop;             % m_prop >= m_SC*(1-^(-delta_v/g*Isp))
-    m_payload = m_SC - m_structure - m_prop;
-    g1 = m_payload_min - m_payload;                               % m_payload >= m_payload_min
-
+   
     % g2: Radiation shielding from structural mass
     
     n_points = 1000;
@@ -74,15 +68,13 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     D_total = trapz(times, D); % Integrate to find a total dose applied to spacecraft across flight
     shield = m_minshield + (D_total/alpha) - beta*m_structure;  % beta*m_structure = m_minshield + alpha*(D_total)
     
-    if isnan(g1)
-        disp('g1 is NaN!')
-    end 
+
 
     if isnan(shield)
         disp('g2 is NaN!')
     end 
 
-    % S3_constraints = [g1, shield];    
+   
     S3_constraints = shield;
 
 end

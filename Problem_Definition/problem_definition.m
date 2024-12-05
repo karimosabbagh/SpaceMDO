@@ -34,8 +34,8 @@ PB.var{9} =   {'V_SC_arrival_c'       2    true     'V_SC_arrival_e'         1  
 
 % SPACECRAFT & PROPELLANT MASS
 %----------------------------------------------------------
-PB.var{10}   = {'m_prop_s'            3    false     []                       1    lb                3000}; 
-PB.var{11}   = {'m_structure_s'       3    false    []                       1    lb                1500};
+PB.var{10}   = {'m_prop_s'            3    false     []                       1    lb                50000}; 
+PB.var{11}   = {'m_SC'                3    false    []                       1    lb                50000};
 PB.var{12}   = {'Isp'                 3    false    []                       1    150               600}; 
 PB.var{13}   = {'delta_v_escape_s'    3    false    'delta_v_escape_e'       1    lb                80};
 PB.var{14}   = {'delta_v_capture_s'   3    false    'delta_v_capture_c'      1    lb                80};

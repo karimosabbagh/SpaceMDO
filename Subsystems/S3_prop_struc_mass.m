@@ -41,14 +41,11 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam + c_FOV*(eta_FOV / IFOV)^phi;
    
     % constraints
-
-
     
     % calculate time of flight
     tof = determine_tof(departure_date, arrival_date);
     
-    
-
+   
     % g2: Radiation shielding from structural mass
     
     n_points = 1000;

@@ -49,7 +49,7 @@ switch subproblem_index
         % Subproblem 4 - PLANET COVERAGE
         [r_p, e, eta_center, eta_FOV_tilde, IFOV] = get_variable(x_DV, PB, 'r_p_p', 'e_p', 'eta_center', 'eta_FOV_p', 'IFOV_p');
         [percent_coverage, S4_constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV);
-        obj = percent_coverage;
+        obj = percent_coverage + 0.25*e;
         % y = T_orbit;
         y = [];
         c_ineq = S4_constraints;

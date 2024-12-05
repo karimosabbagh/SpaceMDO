@@ -26,7 +26,7 @@ PB.var{6}   = {'V_SC_arrival_e'       1    false    [14]       1    lb          
 % ORBITAL CAPTURE
 %----------------------------------------------------------
 PB.var{7}   = {'delta_v_capture_c'    2    true    [19]       1    lb                20e3};
-PB.var{8}  =  {'m_prop_c'             2    false    []       1    lb                1000}; % DECOUPLED WITH S3
+PB.var{8}  =  {'m_prop_c'             2    false    [15]       1    lb                1000}; % DECOUPLED WITH S3
 PB.var{9}  =  {'r_p_c'                2    false    [24]       1    (R_mars + 100e3)    (1000e3 + R_mars)}; 
 PB.var{10}  = {'e_c'                  2    false    [25]         1    lb                0.9};
 PB.var{11}  = {'departure_date_c'     2    false    [3,20]     1    start_date        (end_date - 100)};
@@ -36,15 +36,15 @@ PB.var{14}  = {'V_SC_arrival_c'       2    true     [6]        1    lb          
 
 % SPACECRAFT & PROPELLANT MASS
 %----------------------------------------------------------
-PB.var{15}   = {'m_prop_s'            3    false    []        1    lb                 1500}; % DECOUPLED WITH S2
-PB.var{16}   = {'m_structure_s'       3    false    []        1    lb                 1500};
+PB.var{15}   = {'m_prop_s'            3    true    [8]        1    lb                 75000}; 
+PB.var{16}   = {'m_SC'                3    false    []        1    lb                 75000};
 PB.var{17}   = {'Isp'                 3    false    []        1    150                 600}; 
 PB.var{18}   = {'delta_v_escape_s'    3    false    [1]       1    lb                 20e3};
 PB.var{19}   = {'delta_v_capture_s'   3    false    [7]       1    lb                 20e3};
 PB.var{20}   = {'departure_date_s'    3    false    [3,11]    1    start_date         (end_date - 100)};
 PB.var{21}   = {'arrival_date_s'      3    false    [4,12]    1    (start_date + 100)         end_date};
-PB.var{22}   = {'eta_FOV_s'           3    false    []      1    lb                 deg2rad(35)};
-PB.var{23}   = {'IFOV_s'              3    false    []      1    1e-3               10};
+PB.var{22}   = {'eta_FOV_s'           3    false    [28]      1    lb                 deg2rad(35)};
+PB.var{23}   = {'IFOV_s'              3    false    [29]      1    1e-3               10};
 
 
 % PLANET COVERAGE
@@ -53,8 +53,8 @@ PB.var{24}   = {'r_p_p'               4    false    'r_p_c'   1    (R_mars + 100
 PB.var{25}   = {'e_p'                 4    false    'e_c'     1    lb                 0.9};
 PB.var{26}   = {'T_orbit'             4    false    []        1    1e3                10e4};  
 PB.var{27}   = {'eta_center'          4    false    []        1    lb                 deg2rad(45)};
-PB.var{28}   = {'eta_FOV'             4    false    []        1    lb                 deg2rad(35)};
-PB.var{29}   = {'IFOV'                4    false    []        1    1e-3               10};
+PB.var{28}   = {'eta_FOV'             4    false    [22]        1    lb                 deg2rad(35)};
+PB.var{29}   = {'IFOV'                4    false    [23]        1    1e-3               10};
 
 
 % The objective function of sub-system index_main is considered as the 
@@ -62,7 +62,7 @@ PB.var{29}   = {'IFOV'                4    false    []        1    1e-3         
 PB.index_main = 3;
 % Function to call to perform the subsystem analysis:
 PB.analysis_file = 'subsystem_analysis';
-PB.end_of_iter_file = 'display';
+PB.end_of_iter_file = 'display_convergence';
 
 % %              Name                   SP    CV    links       dim   lb               ub
 % %

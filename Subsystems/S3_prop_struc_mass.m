@@ -1,4 +1,4 @@
-function [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delta_v_arrival, departure_date, arrival_date, Isp, m_structure, eta_FOV, IFOV)
+function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta_v_arrival, departure_date, arrival_date, Isp, m_structure, eta_FOV, IFOV)
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Setup');
@@ -9,7 +9,7 @@ function [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delt
 
     % define constants
     m_SC = 3000;           % kg, similar to Mars Recon Orbiter
-    g = 9.81;                   % m/s^2
+    g = 9.81/1000;              % km/s^2
 
     c_prop = 50;                % $/kg
     gamma = 0.8;                % 
@@ -33,9 +33,9 @@ function [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delt
      
     % objective function
     delta_v = delta_v_escape + delta_v_arrival; 
-    m_prop_s = m_SC*(1-exp(-1*delta_v/(g*Isp)));
+    m_prop = m_SC*(1-exp(-1*delta_v/(g*Isp)));
 
-    cost = c_prop*(m_prop_s)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam + c_FOV*(eta_FOV / IFOV)^phi;
+    cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam + c_FOV*(eta_FOV / IFOV)^phi;
    
     % constraints
 
@@ -47,7 +47,7 @@ function [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delt
     
     % g1: Minimum propellant mass required (switch for minimum payload mass)
     % g1 = m_SC*(1-exp(-1*delta_v/(g*Isp)))- m_prop;             % m_prop >= m_SC*(1-^(-delta_v/g*Isp))
-    m_payload = m_SC - m_structure - m_prop_s;
+    m_payload = m_SC - m_structure - m_prop;
     g1 = m_payload_min - m_payload;                               % m_payload >= m_payload_min
 
     % g2: Radiation shielding from structural mass
@@ -70,17 +70,18 @@ function [m_prop_s,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape,delt
 
     D = D_avg * (1 ./ r).^2;
     D_total = trapz(times, D); % Integrate to find a total dose applied to spacecraft across flight
-    g2 = m_minshield + (D_total/alpha) - beta*m_structure;  % beta*m_structure = m_minshield + alpha*(D_total)
+    shield = m_minshield + (D_total/alpha) - beta*m_structure;  % beta*m_structure = m_minshield + alpha*(D_total)
     
     if isnan(g1)
         disp('g1 is NaN!')
     end 
 
-    if isnan(g2)
+    if isnan(shield)
         disp('g2 is NaN!')
     end 
 
-    S3_constraints = [g1, g2];
+    % S3_constraints = [g1, shield];    
+    S3_constraints = shield;
 
 end
 

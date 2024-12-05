@@ -33,6 +33,8 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     % disp('arrival_date')
     % disp(arrival_date)
 
+    r_p1 = r_p1 * 1e3; % Convert to km
+
     departure_date = fix(departure_date);
     arrival_date = fix(arrival_date);
 
@@ -49,9 +51,9 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     end
 
 
-    R_Earth_departure = [departure_row.Earth_Position_Magnitude] * 1000; % m
-    V_Earth_departure = [departure_row.Earth_Velocity_Magnitude] * 1000; % m/s
-    R_Mars_arrival = [arrival_row.Mars_Position_Magnitude] * 1000; % m
+    R_Earth_departure = [departure_row.Earth_Position_Magnitude] ; % km
+    V_Earth_departure = [departure_row.Earth_Velocity_Magnitude] ; % km/s
+    R_Mars_arrival = [arrival_row.Mars_Position_Magnitude]; % m
     m_SC = 3000; %kg
 
     % spacecraft departure velocity
@@ -84,7 +86,8 @@ function S1_constraints = S1_evaluate_constraints(V_SC_departure, V_Earth_depart
     c3 = tof - 500;
               
     % Combine constraints
-    S1_constraints = [c1, c2, c3];
+    %S1_constraints = [c1, c2, c3];
+    S1_constraints = c1;
 
 end
 

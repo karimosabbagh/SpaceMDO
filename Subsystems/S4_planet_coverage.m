@@ -1,5 +1,5 @@
 % Subsystem function
-function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV)
+function [obj, S4_constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_tilde, IFOV)
     % Planet Coverage Subsystem
     % Inputs:
     %   r_p          - Periapsis radius (m)
@@ -19,7 +19,7 @@ function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, et
     global Res_min;
 
     % Calculate semi-major axis (a)
-    a = r_p / (1 - e);
+    a = r_p * 1e6 / (1 - e); % Convert to km
 
     % Calculate orbital period
     T_orbit = 2 * pi * sqrt(a^3 / (G * M_Mars));
@@ -30,7 +30,7 @@ function [obj, T_orbit, constraints] = S4_planet_coverage(r_p, e, eta_center, et
     obj = -integrate_coverage(a, e, eta_center, eta_FOV_tilde) / A_mars;
 
     % Evaluate non-linear constraints
-    constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFOV);
+    S4_constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFOV);
 end
 
 function A_total = integrate_coverage(a, e, eta_center, eta_FOV_tilde)

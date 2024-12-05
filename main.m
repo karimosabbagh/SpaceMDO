@@ -29,9 +29,9 @@ clc
 close all
 clear all
 addpath NoHIMDO_solver
-addpath Setup\
+addpath Setup
 addpath Problem_Definition
-addpath Analysis\
+addpath Analysis
 
 % Create a timestamped folder path under 'Experiments'
 timestamp = datestr(now, 'yyyy-mm-dd_HH-MM-SS');  % Correct timestamp format
@@ -44,7 +44,7 @@ end
 
 % Initialize variables
 %global G M R_earth R_mars earth_orbital_data mars_result_data;
-x = [];
+%x = [];
 initialize_globals();
 [x, initial_guess] = generate_initial_guess();
 

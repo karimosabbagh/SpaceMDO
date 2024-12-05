@@ -22,7 +22,7 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     addpath(setup);
     
 
-    global G M_Earth M_Sun earth_orbital_data mars_orbital_data;
+    global G M_Earth M_Sun earth_orbital_data mars_orbital_data m_SC;
 
     % departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
     % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
@@ -54,7 +54,6 @@ function [delta_v_escape, V_SC_departure, S1_constraints] = ...
     R_Earth_departure = [departure_row.Earth_Position_Magnitude] ; % km
     V_Earth_departure = [departure_row.Earth_Velocity_Magnitude] ; % km/s
     R_Mars_arrival = [arrival_row.Mars_Position_Magnitude]; % m
-    m_SC = 3000; %kg
 
     % spacecraft departure velocity
     V_SC_departure = sqrt(V_SC_arrival^2 + 2 * G * (M_Sun + m_SC) * ...

@@ -14,10 +14,10 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     g = 9.81/1000;              % km/s^2
 
     c_prop = 50;                % $/kg
-    gamma = 0.8;                % 
+    gamma = 1.1;                % 
     c_struct = 70;              % $/kg
     n = 0.75;                    % 
-    c_isp = 10;                  % $/s
+    c_isp = 50;                  % $/s
     lam = 1.1;                  % 
     c_FOV = 50;                %
     phi = 1.5;

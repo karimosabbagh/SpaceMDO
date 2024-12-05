@@ -14,7 +14,7 @@ function initialize_globals()
 
     % Mass of spacecraft
 
-    m_SC = 3000; %kg
+    m_SC = 5000; %kg
 
     % Planet Coverage Specific constant
     Res_min = 30; % m

@@ -10,7 +10,7 @@ function [x, initial_guess] = generate_initial_guess()
     % - x: A 1x29 double array containing the initial guesses for each variable
     % - initial_guess: A structure containing the named initial guesses (saved to file)
 
-    global R_earth R_mars start_date
+    global R_earth R_mars start_date;
 
     % Initialize the structure for storing the initial guess
     initial_guess = struct();
@@ -32,7 +32,7 @@ function [x, initial_guess] = generate_initial_guess()
     initial_guess.V_SC_departure_c = 33.4;  % Example: speed value
     initial_guess.V_SC_arrival_c = 19.7;    % Example: speed value for arrival
 
-    %initial_guess.m_prop_s = 1000;            % Example propellant mass for spacecraft
+    initial_guess.m_prop_s = 1000;            % Example propellant mass for spacecraft
     initial_guess.m_structure_s = 1300;      % Example structure mass
     initial_guess.Isp = 300;                 % Example ISP value
     initial_guess.delta_v_escape_s = 5.3;   % Example delta_v for spacecraft escape
@@ -53,7 +53,7 @@ function [x, initial_guess] = generate_initial_guess()
     x = [
         initial_guess.delta_v_escape_e, initial_guess.r_p_e, initial_guess.V_SC_departure_e, initial_guess.V_SC_arrival_e, ...
         initial_guess.delta_v_capture_c, initial_guess.r_p_c, initial_guess.e_c, initial_guess.V_SC_departure_c, initial_guess.V_SC_arrival_c, ...
-        initial_guess.m_structure_s, initial_guess.Isp, initial_guess.delta_v_escape_s, initial_guess.delta_v_capture_s, initial_guess.eta_FOV_s, initial_guess.IFOV_s ...
+        initial_guess.m_prop_s, initial_guess.m_structure_s, initial_guess.Isp, initial_guess.delta_v_escape_s, initial_guess.delta_v_capture_s, initial_guess.eta_FOV_s, initial_guess.IFOV_s ...
         initial_guess.r_p_p, initial_guess.e_p, initial_guess.eta_center, initial_guess.eta_FOV, initial_guess.IFOV
     ];
 

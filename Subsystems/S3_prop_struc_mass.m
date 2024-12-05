@@ -4,12 +4,13 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     subsytems = fullfile(currentFilePath, '..', 'Setup');
     addpath(subsytems);
 
+    global m_SC;
+
     % departure_date = datetime(departure_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
     % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
 
     % define constants
     IFOV = IFOV/1000;
-    m_SC = 3000;           % kg, similar to Mars Recon Orbiter
     g = 9.81/1000;              % km/s^2
 
     c_prop = 50;                % $/kg
@@ -19,7 +20,7 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     c_isp = 10;                  % $/s
     lam = 1.1;                  % 
     c_FOV = 50;                %
-    phi = 2;
+    phi = 1.5;
     
     % constraint constants
     m_minshield = 100; % minimum shield mass required for all missions

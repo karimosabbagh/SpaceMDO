@@ -23,7 +23,7 @@ switch subproblem_index
         [r_p1, V_SC_arrival] = get_variable(x_DV,PB, 'r_p_e', 'V_SC_arrival_e');
         [delta_v_escape, V_SC_departure, S1_constraints] = S1_orbital_escape(r_p1, V_SC_arrival, departure_date, arrival_date);
         obj = delta_v_escape;
-        y = V_SC_departure;
+        y = [delta_v_escape, V_SC_departure];
         c_ineq = S1_constraints;
 
     case 2
@@ -33,7 +33,7 @@ switch subproblem_index
         [delta_v_capture, V_SC_arrival, S2_constraints] = S2_orbital_capture(e, r_p2, V_SC_departure, departure_date, arrival_date);
         obj = delta_v_capture;
         c_ineq = S2_constraints;
-        y = V_SC_arrival;
+        y = [delta_v_capture, V_SC_arrival];
 
     case 3
         % Subproblem 3 - SPACECRAFT & PROPELLANT MASS

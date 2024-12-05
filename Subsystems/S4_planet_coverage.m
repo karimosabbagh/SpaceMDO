@@ -21,7 +21,7 @@ function [obj, S4_constraints] = S4_planet_coverage(r_p, e, eta_center, eta_FOV_
     IFOV = IFOV/1000;
 
     % Calculate semi-major axis (a)
-    a = r_p * 1e6 / (1 - e); % Convert to km
+    a = r_p * 1e3 / (1 - e); % Convert to km
 
     % Calculate orbital period
     T_orbit = 2 * pi * sqrt(a^3 / (G * M_Mars));
@@ -143,7 +143,7 @@ function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFO
     % Calculate slant range rho
     rho = R_mars * cos(gamma) + r_sat * cos(eta_max);
     
-    c2 = rho * 1e-3 * IFOV - Res_min;
+    c2 = rho * IFOV - Res_min; %rho is in km, IFOV in rad
 
     if isnan(c1)
         disp('c1 is NaN')

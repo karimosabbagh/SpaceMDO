@@ -16,7 +16,7 @@ ub = inf;
 % ORBITAL ESCAPE
 %----------------------------------------------------------
 PB.var{1}   = {'delta_v_escape_e'     1    true     'delta_v_escape_s'       1    lb                80};
-PB.var{2}   = {'r_p_e'                1    false    []                       1    (R_earth+160)/1e3   (R_earth+2000/1e3)}; 
+PB.var{2}   = {'r_p_e'                1    false    []                       1    (R_earth+160)/1e3   (R_earth+2000)/1e3}; 
 %PB.var{3}   = {'departure_date_e'     1    false    [11,20]    1            start_date        (end_date - 100)};
 %PB.var{4}   = {'arrival_date_e'       1    false    [12,21]    1            start_date + 100)        end_date};
 PB.var{3}   = {'V_SC_departure_e'     1    true     'V_SC_departure_c'       1    lb                80};

@@ -2,7 +2,7 @@ function initialize_globals()
     % initialize_globals: Declare and initialize global variables
 
 
-    global G M_Earth M_Mars M_Sun R_earth R_mars Res_min earth_orbital_data mars_orbital_data start_date end_date departure_date arrival_date;
+    global G M_Earth M_Mars M_Sun R_earth R_mars Res_min earth_orbital_data mars_orbital_data start_date end_date departure_date arrival_date m_SC;
     
     % Define global constants
     G = 6.67430e-11 /1e9;      % Gravitational constant (m^3/kg/s^2)

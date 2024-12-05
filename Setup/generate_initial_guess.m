@@ -40,14 +40,14 @@ function [x, initial_guess] = generate_initial_guess()
     %initial_guess.departure_date_s = start_date + 40; % Example: spacecraft departure date
     %initial_guess.arrival_date_s = start_date + 100;  % Example: spacecraft arrival date
     initial_guess.eta_FOV_s = deg2rad(15);           % Example: field-of-view angle for coverage
-    initial_guess.IFOV_s = 0.1;                % Example: Instantaneous Field of View
+    initial_guess.IFOV_s = 10;                % Example: Instantaneous Field of View
     
     initial_guess.r_p_p = initial_guess.r_p_c;     % Example: planet coverage variable
     initial_guess.e_p = initial_guess.e_c;                % Example: eccentricity for planet coverage
     %initial_guess.T_orbit = 7000;            % Example: orbital period in seconds
     initial_guess.eta_center = deg2rad(0);  % Example: center angle for planet coverage
     initial_guess.eta_FOV = deg2rad(15);     % Example: field-of-view angle for coverage
-    initial_guess.IFOV = 0.005;                  % Example: Instantaneous Field of View
+    initial_guess.IFOV = initial_guess.IFOV_s;                  % Example: Instantaneous Field of View
 
     % Generate the 1x22 vector (x) based on the hardcoded initial guesses
     x = [

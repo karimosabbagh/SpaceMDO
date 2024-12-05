@@ -8,6 +8,7 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     % arrival_date = datetime(arrival_date, "ConvertFrom", "datenum", "Format", 'yyyy-MM-dd');
 
     % define constants
+    IFOV = IFOV/1000;
     m_SC = 3000;           % kg, similar to Mars Recon Orbiter
     g = 9.81/1000;              % km/s^2
 

@@ -95,4 +95,9 @@ save(fullfile(folder_path, 'output.mat'), 'output', 'PB', 'NoHi_options');
 
 % save results in neat formatted manner
 results_table = format_results(output, PB);
-save(fullfile(folder_path, 'results_table.mat'), 'results_table');
+save(fullfile(folder_path, 'results.mat'), 'results_table');
+
+
+% Evaluate Subsystems
+[results, evaluations] =  evaluate_subsystems(output.x, PB);
+save(fullfile(folder_path, 'evaluations.mat'), 'evaluations');

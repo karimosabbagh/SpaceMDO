@@ -1,4 +1,4 @@
-function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta_v_arrival, departure_date, arrival_date, Isp, m_SC, eta_FOV, IFOV)
+function [m_prop,cost, cost_split, S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta_v_arrival, departure_date, arrival_date, Isp, m_SC, eta_FOV, IFOV)
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Setup');
@@ -38,8 +38,17 @@ function [m_prop,cost,S3_constraints] = S3_prop_struc_mass(delta_v_escape, delta
     m_prop = m_SC*(1-exp(-1*delta_v/(g*Isp)));
     m_structure = m_SC - m_prop;
     disp(m_structure);
-    cost = c_prop*(m_prop)^gamma + c_struct*(m_structure)^n + c_isp*(Isp)^lam + c_FOV*(eta_FOV / IFOV)^phi;
-   
+
+
+    m_prop_contribution = c_prop*(m_prop)^gamma;
+    m_structure_contribution =  c_struct*(m_structure)^n;
+    ISP_contribution = c_isp*(Isp)^lam;
+    FOV_contribution = c_FOV*(eta_FOV / IFOV)^phi;
+
+    cost = m_prop_contribution  + m_structure_contribution + ISP_contribution + FOV_contribution;
+    cost_split = [m_prop_contribution, m_structure_contribution, ISP_contribution, FOV_contribution] ./ cost;
+
+
     % constraints
     
     % calculate time of flight

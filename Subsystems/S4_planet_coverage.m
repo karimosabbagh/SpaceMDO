@@ -122,7 +122,7 @@ function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFO
     global R_mars Res_min;
 
     % Orbital radius at periapsis
-    r_sat = a * (1 - e^2) / (1 + e * cos(0)); % r_sat for theta = 0
+    r_sat = a * (1 - e^2) / (1 + e * cos(pi)); % r_sat for theta = 180
 
     % Constraint 1: Field of view does not extend beyond the planet's surface
     eta_max = eta_center + eta_FOV_tilde / 2;
@@ -143,7 +143,7 @@ function constraints = evaluate_constraints(a, e, eta_center, eta_FOV_tilde, IFO
     % Calculate slant range rho
     rho = R_mars * cos(gamma) + r_sat * cos(eta_max);
     
-    c2 = rho * IFOV - Res_min; %rho is in km, IFOV in rad
+    c2 = rho * IFOV - Res_min; %rho is in km, IFOV in mrad
 
     if isnan(c1)
         disp('c1 is NaN')

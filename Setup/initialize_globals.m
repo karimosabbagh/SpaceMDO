@@ -53,4 +53,6 @@ function initialize_globals()
         error('Error loading CSV files: %s', ME.message);
     end
 
+    save globals M_Earth M_Mars M_Sun R_earth R_mars Res_min earth_orbital_data mars_orbital_data start_date end_date departure_date arrival_date m_SC;
+
 end

@@ -36,8 +36,8 @@ function [results, evaluations] =  evaluate_subsystems(x, PB)
         = S2_orbital_capture(results.e_c, results.r_p_c, results.V_SC_departure_c, departure_date_c, arrival_date_c);
     
     % Subsystem 3
-    [evaluations.m_prop_s, evaluations.cost, evaluations.S3_constraints] = ...
-        S3_prop_struc_mass(results.delta_v_escape_s, results.delta_v_capture_s, departure_date_s, arrival_date_s, results.Isp, results.m_structure_s, results.eta_FOV_s, results.IFOV_s);
+    [evaluations.m_prop_s, evaluations.cost, evaluations.cost_split, evaluations.S3_constraints] = ...
+        S3_prop_struc_mass(results.delta_v_escape_s, results.delta_v_capture_s, departure_date_s, arrival_date_s, results.Isp, results.m_SC, results.eta_FOV_s, results.IFOV_s);
 
     % Subsystem 4
     [evaluations.percent_coverage, evaluations.S4_constraints] = ...

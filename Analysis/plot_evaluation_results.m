@@ -16,7 +16,7 @@ function plot_evaluation_results(folder_names, x_values, x_label, desired_evalua
     % Check if x_values is a cell array of strings
     if iscell(x_values) && all(cellfun(@ischar, x_values))
         x_is_strings = true;
-        x_categories = categorical(x_values); % Convert strings to categorical for plotting
+        x_categories = categorical(x_values, x_values); % Convert strings to categorical for plotting
     elseif isnumeric(x_values)
         x_is_strings = false;
     else
@@ -69,6 +69,17 @@ function plot_evaluation_results(folder_names, x_values, x_label, desired_evalua
     
     % Replace underscores with spaces in labels
     processed_labels = cellfun(@(s) strrep(s, '_', ' '), processed_labels, 'UniformOutput', false);
+    
+    % % Convert x_values to datetime if they are dates and sort them
+    % if all(contains(x_values, '-')) % Check if x_values are date strings
+    %     x_values_dt = datetime(x_values, 'InputFormat', 'dd-MM-yyyy');
+    %     [x_values, sortIdx] = sort(x_values_dt); % Sort chronologically
+    % else
+    %     [x_values, sortIdx] = sort(x_values); % Default sorting for non-date values
+    % end
+    % 
+    % % Rearrange y_values to match sorted x_values
+    % y_values = cellfun(@(col) col(sortIdx), y_values, 'UniformOutput', false);
 
     if length(desired_evaluations) == 1
         % Single y-value plot

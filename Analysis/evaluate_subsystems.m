@@ -1,5 +1,5 @@
 function [results, evaluations] =  evaluate_subsystems(x, PB)
-        
+
     % Add subsystem paths
     currentFilePath = fileparts(mfilename('fullpath'));
     subsytems = fullfile(currentFilePath, '..', 'Subsystems');
